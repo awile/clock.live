@@ -22,7 +22,11 @@ function Search({ searchNames, onChange }) {
       setMatches(searchHits);
     }
   };
-  const setOnClick = (value) => () => handleChange({ target: { value } });
+  const setOnClick = (value) => () => {
+    onChange(value);
+    setTerm('');
+    setMatches([]);
+  }
   return (
     <div>
       <input

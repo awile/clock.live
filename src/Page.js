@@ -23,15 +23,15 @@ const Page = () => {
     <div>
       <div className="App-header">
         <h2 className='header'>clocks.live</h2>
-        <Search searchNames={Object.keys(search_names)} onChange={handleChange}/>
       </div>
       <div className='App-tz'>
         <div className='App-tz-containers'>
           <Timezone timezone={userTimezone} />
           {
             selectedTimezones.map(tz =>
-              <Timezone timezone={tz} />
+              <Timezone key={tz.label} timezone={tz} />
           )}
+          <Search searchNames={Object.keys(search_names)} onChange={handleChange}/>
         </div>
       </div>
     </div>
