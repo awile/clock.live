@@ -1,16 +1,16 @@
 import React from 'react'
 
-export default ({ date, userTimezone }) => {
+const Time = ({ date, timezone }) => {
 
   const formatDate = (date) => {
-    let [hour, minute] = date.toLocaleTimeString("en-US").split(/:| /);
-    return `${userTimezone.label} - ${hour}:${minute} PM`;
+    return `${timezone.label} - ${date.format('hh:mm A')}`;
   };
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1>clocks.live</h1>
       <div>{formatDate(date)}</div>
     </div>
   );
 };
+
+export default Time;

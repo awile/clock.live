@@ -4,22 +4,26 @@ import React, { useState } from 'react';
 import Time from './time';
 import * as moment from 'moment-timezone';
 
-const LiveWrapper = ({ userTimezone }) => {
-  const [date, setDate] = useState(newDate(userTimezone.utc[0]));
+const LiveWrapper = ({ userTimezone, selectedTimezones }) => {
+  const [date, setDate] = useState(newDate(userTimezone.label));
   tick(setDate, userTimezone);
   return (
     <div>
-      <Time date={date} userTimezone={userTimezone} />
+      <Time date={date} timezone={userTimezone} />
+      {
+        selectedTimezones.map(tz =>
+          <Time key={tz.label} date={newDate(tz.label)} timezone={tz} />)
+      }
     </div>
   );
 };
 
-const newDate = (userTimezone) => {
-  return moment().tz(userTimezone).toDate();
+const newDate = (timezone) => {
+  return moment().tz(timezone);
 };
 
 const tick = (setDate, userTimezone) => {
-  const updateDate = () => setDate(newDate(userTimezone.utc[0]));
+  const updateDate = () => setDate(newDate(userTimezone.label));
 
   setTimeout(updateDate, 1000);
 };
