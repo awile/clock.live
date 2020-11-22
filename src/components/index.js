@@ -1,11 +1,11 @@
 
-import LiveWrapper from './live-wrapper';
+import Timezone from './timezone/';
 import Search from './search';
 import Time from './time';
 
 
 export {
-  LiveWrapper,
+  Timezone,
   Search,
   Time
 }

@@ -7,7 +7,7 @@ const Time = ({ date, timezone }) => {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className='Time-container' style={{ textAlign: 'center' }}>
       <div>{formatDate(date)}</div>
     </div>
   );
