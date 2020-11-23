@@ -13,6 +13,7 @@ const Page = () => {
   const guess = moment.tz.guess();
   const [userTimezone, _] = useState(_getTimezone(guess));
   const [selectedTimezones, setSelectedTimezones] = useState([]);
+  const [cursorTime, setCursorTime] = useState(null);
 
   const handleChange = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
@@ -26,10 +27,17 @@ const Page = () => {
       </div>
       <div className='App-tz'>
         <div className='App-tz-containers'>
-          <Timezone timezone={userTimezone} />
+          <Timezone
+            timezone={userTimezone}
+            cursorTime={cursorTime}
+            onCursorTimeChange={setCursorTime} />
           {
             selectedTimezones.map(tz =>
-              <Timezone key={tz.label} timezone={tz} />
+              <Timezone
+                key={tz.label}
+                cursorTime={cursorTime}
+                onCursorTimeChange={setCursorTime}
+                timezone={tz} />
           )}
           <Search searchNames={Object.keys(search_names)} onChange={handleChange}/>
         </div>
