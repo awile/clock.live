@@ -20,7 +20,7 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <div className="App-header">
         <h2 className='header'>clocks.live</h2>
       </div>
@@ -34,7 +34,7 @@ const Page = () => {
           <Search searchNames={Object.keys(search_names)} onChange={handleChange}/>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
