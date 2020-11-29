@@ -109,3 +109,8 @@ code {
   padding: 0 5px;
 }
 
+.Search-container {
+  margin-left: 15px;
+  width: 300px;
+  text-align: left;
+}

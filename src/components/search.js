@@ -28,7 +28,7 @@ function Search({ searchNames, onChange }) {
     setMatches([]);
   }
   return (
-    <div>
+    <div className='Search-container'>
       <input
         type='text'
         onKeyDown={handleKeyDown}
