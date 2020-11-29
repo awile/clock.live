@@ -14,7 +14,6 @@ const Timezone = ({ timezone, cursorTime, onCursorTimeChange }) => {
   const currentOffset = (date.hour() * 28) + ((date.minute() / 60) * 28);
   const startOfDay = newDate(timezone.utc[0]).startOf('day');
 
-  const x = Math.floor(cursorOffset/671 * (24 * 60));
   let cursorMoment, cursorOffset;
   if (cursorTime) {
     cursorMoment = utcToLocalTimezone(timezone, cursorTime);
@@ -60,7 +59,7 @@ const newDate = (timezone) => {
 const tick = (setDate, tz) => {
   const updateDate = () => setDate(newDate(tz.utc[0]));
 
-  setTimeout(updateDate, 1000);
+  setTimeout(updateDate, 10000);
 };
 
 const offsetToUTCTime = (momentTimezone, offset) => {
@@ -72,8 +71,11 @@ const offsetToUTCTime = (momentTimezone, offset) => {
 const utcTimeToOffset = (timezone, utcTimeoffset, startOfDay) => {
   const local = moment(utcTimeoffset).tz(timezone.utc[0]);
   const duration = moment.duration(local.diff(startOfDay));
-  const minutes = duration.asMinutes();
+  let minutes = duration.asMinutes();
   const minutesInADay = 24 * 60;
+  if (minutes < 0) {
+    minutes = minutesInADay + minutes;
+  }
   return (((minutes % minutesInADay) / minutesInADay) * 671);
 };
 
