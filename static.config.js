@@ -18,6 +18,7 @@ async function loadTimezones(path) {
 
 
 export default {
+  siteRoot: 'https://clocks.live',
   maxThreads: 1, // Remove this when you start doing any static generation
   getSiteData: () => loadTimezones(TIMEZONE_DATA_PATH)
 }
