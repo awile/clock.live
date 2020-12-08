@@ -13,7 +13,7 @@ const Page = () => {
   const guess = moment.tz.guess();
   const [userTimezone, _] = useState(_getTimezone(guess));
   const [selectedTimezones, setSelectedTimezones] = useState([]);
-  const [cursorTime, setCursorTime] = useState(null);
+  const [highlightTime, setHighlightTime] = useState(null);
 
   const handleAddTimezone = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
@@ -34,14 +34,14 @@ const Page = () => {
           <Timezone
             isUserTimezone={true}
             timezone={userTimezone}
-            cursorTime={cursorTime}
-            onCursorTimeChange={setCursorTime} />
+            highlightTime={highlightTime}
+            onHighlightTimeChange={setHighlightTime} />
           {
             selectedTimezones.map(tz =>
               <Timezone
                 key={tz.label}
-                cursorTime={cursorTime}
-                onCursorTimeChange={setCursorTime}
+                highlightTime={highlightTime}
+                onHighlightTimeChange={setHighlightTime}
                 onRemoveTimezone={handleRemoveTimezone}
                 timezone={tz} />
           )}

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Time from '../time';
 import * as moment from 'moment-timezone';
 
-const Timezone = ({ timezone, cursorTime, onCursorTimeChange, onRemoveTimezone, isUserTimezone }) => {
+const Timezone = ({ timezone, highlightTime, onHighlightTimeChange, onRemoveTimezone, isUserTimezone }) => {
   if (timezone.label === 'America/Los_Angeles') {
     timezone.utc[0] = 'America/Los_Angeles';
   }
@@ -13,10 +13,10 @@ const Timezone = ({ timezone, cursorTime, onCursorTimeChange, onRemoveTimezone, 
   const currentOffset = (date.hour() * 28) + ((date.minute() / 60) * 28);
   const startOfDay = newDate(timezone.utc[0]).startOf('day');
 
-  let cursorMoment, cursorOffset;
-  if (cursorTime) {
-    cursorMoment = utcToLocalTimezone(timezone, cursorTime);
-    cursorOffset = utcTimeToOffset(timezone, cursorTime, startOfDay);
+  let highlightMoment, highlightOffset;
+  if (highlightTime) {
+    highlightMoment = utcToLocalTimezone(timezone, highlightTime);
+    highlightOffset = utcTimeToOffset(timezone, highlightTime, startOfDay);
   }
 
   const handlePointerMove = (e) => {
@@ -29,7 +29,7 @@ const Timezone = ({ timezone, cursorTime, onCursorTimeChange, onRemoveTimezone, 
       rect.height :
       Math.max(offset, 0);
     const utcTime = offsetToUTCTime(startOfDay.clone(), yOffset, rect.height);
-    onCursorTimeChange(utcTime);
+    onHighlightTimeChange(utcTime);
   };
 
   return (
@@ -45,8 +45,8 @@ const Timezone = ({ timezone, cursorTime, onCursorTimeChange, onRemoveTimezone, 
         onMouseEnter={handlePointerMove}
         onMouseMove={handlePointerMove}
         onTouchMove={handlePointerMove} >
-        <div className='Timezone-cursor-time' style={{ marginTop: `${cursorOffset}px` }}>
-          {cursorMoment ? cursorMoment.format('h:mm A') : ''}
+        <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
+          {highlightMoment ? highlightMoment.format('h:mm A') : ''}
         </div>
         <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}></div>
         <div className='Timezone-ruler'></div>
@@ -70,10 +70,10 @@ const tick = (setDate, tz) => {
   setTimeout(updateDate, 10000);
 };
 
-const offsetToUTCTime = (momentTimezone, offset, height) => {
+const offsetToUTCTime = (highlightTimezone, offset, height) => {
   const x = Math.floor(offset/height * (24 * 60));
-  const cursorMoment = momentTimezone.clone().add(x, 'minutes');
-  return cursorMoment.utc().format();
+  const highlightMoment = highlightTimezone.clone().add(x, 'minutes');
+  return highlightMoment.utc().format();
 };
 
 const utcTimeToOffset = (timezone, utcTimeoffset, startOfDay) => {
