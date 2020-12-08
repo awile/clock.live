@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { useSiteData } from 'react-static'
 import { Timezone, Search } from './components/';
-import { getTimezone, addSelectedTimezone } from './utils/';
+import { getTimezone, addSelectedTimezone, removeSelectedTimezone } from './utils/';
 import * as moment from 'moment-timezone';
 
 const Page = () => {
@@ -15,8 +15,12 @@ const Page = () => {
   const [selectedTimezones, setSelectedTimezones] = useState([]);
   const [cursorTime, setCursorTime] = useState(null);
 
-  const handleChange = (tz) => {
+  const handleAddTimezone = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
+    setSelectedTimezones(newSelectedTimezones);
+  };
+  const handleRemoveTimezone = (tz) => {
+    const newSelectedTimezones = removeSelectedTimezone(_getTimezone(tz), selectedTimezones);
     setSelectedTimezones(newSelectedTimezones);
   };
 
@@ -28,6 +32,7 @@ const Page = () => {
       <div className='App-tz'>
         <div className='App-tz-containers'>
           <Timezone
+            isUserTimezone={true}
             timezone={userTimezone}
             cursorTime={cursorTime}
             onCursorTimeChange={setCursorTime} />
@@ -37,9 +42,10 @@ const Page = () => {
                 key={tz.label}
                 cursorTime={cursorTime}
                 onCursorTimeChange={setCursorTime}
+                onRemoveTimezone={handleRemoveTimezone}
                 timezone={tz} />
           )}
-          <Search searchNames={Object.keys(search_names)} onChange={handleChange}/>
+          <Search searchNames={Object.keys(search_names)} onChange={handleAddTimezone} />
         </div>
       </div>
     </React.Fragment>

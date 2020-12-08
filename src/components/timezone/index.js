@@ -1,15 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Time from '../time';
 import * as moment from 'moment-timezone';
 
-const Timezone = ({ timezone, cursorTime, onCursorTimeChange }) => {
+const Timezone = ({ timezone, cursorTime, onCursorTimeChange, onRemoveTimezone, isUserTimezone }) => {
   if (timezone.label === 'America/Los_Angeles') {
     timezone.utc[0] = 'America/Los_Angeles';
   }
   const [date, setDate] = useState(newDate(timezone.utc[0]));
-  const [hasListener, setHasListener] = useState(false);
   tick(setDate, timezone);
   const currentOffset = (date.hour() * 28) + ((date.minute() / 60) * 28);
   const startOfDay = newDate(timezone.utc[0]).startOf('day');
@@ -20,23 +19,32 @@ const Timezone = ({ timezone, cursorTime, onCursorTimeChange }) => {
     cursorOffset = utcTimeToOffset(timezone, cursorTime, startOfDay);
   }
 
-  useEffect(() => {
+  const handlePointerMove = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const timezoneContainer = document.getElementsByClassName(timezone.label)[0];
-    if (!hasListener) {
-      timezoneContainer.addEventListener('mousemove', (e) => {
-        if (e.layerY > 1) {
-          const utcTime = offsetToUTCTime(startOfDay.clone(), e.layerY);
-          onCursorTimeChange(utcTime);
-        }
-      });
-      setHasListener(true);
-    }
-  });
+    const rect = timezoneContainer.getBoundingClientRect();
+    const offset = e.clientY - rect.top;
+    const yOffset = (offset >= rect.height) ?
+      rect.height :
+      Math.max(offset, 0);
+    const utcTime = offsetToUTCTime(startOfDay.clone(), yOffset, rect.height);
+    onCursorTimeChange(utcTime);
+  };
 
   return (
     <div className='Timezone'>
       <Time date={date} timezone={timezone} />
-      <div className={`Timezone-calendar-container ${timezone.label}`}>
+        <div
+          className="Timezone-remove-tz"
+          onClick={() => onRemoveTimezone(timezone.label)}>
+          { !isUserTimezone ? 'x' : '' }
+        </div>
+      <div
+        className={`Timezone-calendar-container ${timezone.label}`}
+        onMouseEnter={handlePointerMove}
+        onMouseMove={handlePointerMove}
+        onTouchMove={handlePointerMove} >
         <div className='Timezone-cursor-time' style={{ marginTop: `${cursorOffset}px` }}>
           {cursorMoment ? cursorMoment.format('h:mm A') : ''}
         </div>
@@ -62,8 +70,8 @@ const tick = (setDate, tz) => {
   setTimeout(updateDate, 10000);
 };
 
-const offsetToUTCTime = (momentTimezone, offset) => {
-  const x = Math.floor(offset/671 * (24 * 60));
+const offsetToUTCTime = (momentTimezone, offset, height) => {
+  const x = Math.floor(offset/height * (24 * 60));
   const cursorMoment = momentTimezone.clone().add(x, 'minutes');
   return cursorMoment.utc().format();
 };
@@ -76,7 +84,7 @@ const utcTimeToOffset = (timezone, utcTimeoffset, startOfDay) => {
   if (minutes < 0) {
     minutes = minutesInADay + minutes;
   }
-  return (((minutes % minutesInADay) / minutesInADay) * 671);
+  return (((minutes % minutesInADay) / minutesInADay) * 672);
 };
 
 const utcToLocalTimezone = (timezone, utcTimeoffset) => {

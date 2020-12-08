@@ -105,6 +105,13 @@ code {
   text-align: right;
 }
 
+.Timezone-remove-tz {
+  min-height: 18px;
+}
+.Timezone-remove-tz:hover {
+  cursor: pointer;
+}
+
 .Time-container {
   padding: 0 5px;
 }
