@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Time from '../time';
 import * as moment from 'moment-timezone';
 
-const Timezone = ({ timezone, highlightTime, onHighlightTimeChange, onRemoveTimezone, isUserTimezone }) => {
+const Timezone = ({ timezone, highlightTime, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
   if (timezone.label === 'America/Los_Angeles') {
     timezone.utc[0] = 'America/Los_Angeles';
   }
@@ -22,6 +22,20 @@ const Timezone = ({ timezone, highlightTime, onHighlightTimeChange, onRemoveTime
   const handlePointerMove = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (isFixedTime) { return; }
+    const time = _getUpdateTime(e);
+    onHighlightTimeChange(time);
+  };
+
+  const handlePointerClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const time = _getUpdateTime(e);
+    setIsFixedTime(true);
+    onHighlightTimeChange(time);
+  };
+
+  const _getUpdateTime= (e) => {
     const timezoneContainer = document.getElementsByClassName(timezone.label)[0];
     const rect = timezoneContainer.getBoundingClientRect();
     const offset = e.clientY - rect.top;
@@ -29,7 +43,7 @@ const Timezone = ({ timezone, highlightTime, onHighlightTimeChange, onRemoveTime
       rect.height :
       Math.max(offset, 0);
     const utcTime = offsetToUTCTime(startOfDay.clone(), yOffset, rect.height);
-    onHighlightTimeChange(utcTime);
+    return utcTime;
   };
 
   return (
@@ -44,7 +58,8 @@ const Timezone = ({ timezone, highlightTime, onHighlightTimeChange, onRemoveTime
         className={`Timezone-calendar-container ${timezone.label}`}
         onMouseEnter={handlePointerMove}
         onMouseMove={handlePointerMove}
-        onTouchMove={handlePointerMove} >
+        onTouchMove={handlePointerMove}
+        onClick={handlePointerClick}>
         <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
           {highlightMoment ? highlightMoment.format('h:mm A') : ''}
         </div>

@@ -13,6 +13,7 @@ const Page = () => {
   const guess = moment.tz.guess();
   const [userTimezone, _] = useState(_getTimezone(guess));
   const [selectedTimezones, setSelectedTimezones] = useState([]);
+  const [isFixedTime, setIsFixedTime] = useState(false);
   const [highlightTime, setHighlightTime] = useState(null);
 
   const handleAddTimezone = (tz) => {
@@ -33,6 +34,8 @@ const Page = () => {
         <div className='App-tz-containers'>
           <Timezone
             isUserTimezone={true}
+            isFixedTime={isFixedTime}
+            setIsFixedTime={setIsFixedTime}
             timezone={userTimezone}
             highlightTime={highlightTime}
             onHighlightTimeChange={setHighlightTime} />
@@ -40,7 +43,9 @@ const Page = () => {
             selectedTimezones.map(tz =>
               <Timezone
                 key={tz.label}
+                isFixedTime={isFixedTime}
                 highlightTime={highlightTime}
+                setIsFixedTime={setIsFixedTime}
                 onHighlightTimeChange={setHighlightTime}
                 onRemoveTimezone={handleRemoveTimezone}
                 timezone={tz} />
