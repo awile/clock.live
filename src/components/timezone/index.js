@@ -58,9 +58,11 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
         onMouseMove={handlePointerMove}
         onTouchMove={handlePointerMove}
         onClick={handlePointerClick}>
-        <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
-          {highlightMoment ? highlightMoment.format('h:mm A') : ''}
-        </div>
+        { highlightTime &&
+          <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
+            {highlightMoment ? highlightMoment.format('h:mm A') : ''}
+          </div>
+        }
         <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}></div>
         <div className='Timezone-ruler'></div>
         {
