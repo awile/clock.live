@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 
-import Page from './Page.js';
+import Page from './Page';
 import './app.css'
 
 const App = () => {

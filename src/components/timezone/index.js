@@ -82,7 +82,8 @@ const newDate = (timezone) => {
 const tick = (setDate, tz) => {
   const updateDate = () => setDate(newDate(tz.utc[0]));
 
-  setTimeout(updateDate, 10000);
+  const timeout = 10 * 1000; // 10 seeconds
+  setTimeout(updateDate, timeout);
 };
 
 const offsetToUTCTime = (highlightTimezone, offset, height) => {
@@ -99,7 +100,7 @@ const utcTimeToOffset = (timezone, utcTimeoffset, startOfDay) => {
   if (minutes < 0) {
     minutes = minutesInADay + minutes;
   }
-  return (((minutes % minutesInADay) / minutesInADay) * 672);
+  return (((minutes % minutesInADay) / minutesInADay) * 672) - 1;
 };
 
 const utcToLocalTimezone = (timezone, utcTimeoffset) => {

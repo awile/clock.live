@@ -10,8 +10,7 @@ const Page = () => {
   const { timezones, search_names } = useSiteData();
   const _getTimezone = (tz) => getTimezone(tz, timezones, search_names);
 
-  const guess = moment.tz.guess();
-  const [userTimezone, _] = useState(_getTimezone(guess));
+  const [userTimezone, _] = useState(_getTimezone(moment.tz.guess()));
   const [selectedTimezones, setSelectedTimezones] = useState([]);
   const [isFixedTime, setIsFixedTime] = useState(false);
   const [highlightTime, setHighlightTime] = useState(null);
