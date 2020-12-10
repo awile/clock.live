@@ -26,6 +26,11 @@ const Page = () => {
     setSelectedTimezones(newSelectedTimezones);
   };
 
+  const handleClickOffTimezone = () => {
+    setIsFixedTime(false);
+    setHighlightTime(null);
+  }
+
   return (
     <React.Fragment>
       <div className="App-header">
@@ -54,6 +59,7 @@ const Page = () => {
                 timezone={tz} />
           )}
           <Search searchNames={Object.keys(search_names)} onChange={handleAddTimezone} />
+          <div onClick={handleClickOffTimezone}>deselect time</div>
         </div>
       </div>
     </React.Fragment>
