@@ -117,7 +117,25 @@ code {
 }
 
 .Search-container {
+  position: absolute;
   margin-left: 15px;
   width: 300px;
   text-align: left;
+  background: white;
+}
+
+.Deselect-container {
+  height: 665px;
+  width: 150px;
+  background: #f3f3f3;
+  margin-top: 60px;
+  margin-left: 15px;
+  padding: 10px;
+}
+.Deselect-container:hover {
+  cursor: pointer;
+}
+.Deselect-container:active {
+  cursor: pointer;
+  background: #e3e3e3;
 }

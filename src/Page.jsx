@@ -58,8 +58,10 @@ const Page = () => {
                 setIsFixedTime={setIsFixedTime}
                 timezone={tz} />
           )}
-          <Search searchNames={Object.keys(search_names)} onChange={handleAddTimezone} />
-          <div onClick={handleClickOffTimezone}>deselect time</div>
+          <div className=''>
+            <Search searchNames={Object.keys(search_names)} onChange={handleAddTimezone} />
+            <div className='Deselect-container' onClick={handleClickOffTimezone}>deselect time</div>
+          </div>
         </div>
       </div>
     </React.Fragment>
