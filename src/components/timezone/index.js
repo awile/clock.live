@@ -1,16 +1,14 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import Time from '../time';
 import * as moment from 'moment-timezone';
 
-const Timezone = ({ timezone, highlightTime, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
+const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
   if (timezone.label === 'America/Los_Angeles') {
     timezone.utc[0] = 'America/Los_Angeles';
   }
-  const [date, setDate] = useState(newDate(timezone.utc[0]));
-  tick(setDate, timezone);
-  const currentOffset = (date.hour() * 28) + ((date.minute() / 60) * 28);
+  const currentOffset = (globalTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
   const startOfDay = newDate(timezone.utc[0]).startOf('day');
 
   let highlightMoment, highlightOffset;
@@ -48,12 +46,12 @@ const Timezone = ({ timezone, highlightTime, isFixedTime, onHighlightTimeChange,
 
   return (
     <div className='Timezone'>
-      <Time date={date} timezone={timezone} />
-        <div
-          className="Timezone-remove-tz"
-          onClick={() => onRemoveTimezone(timezone.label)}>
-          { !isUserTimezone ? 'x' : '' }
-        </div>
+      <Time date={globalTime} timezone={timezone} />
+      <div
+        className="Timezone-remove-tz"
+        onClick={() => onRemoveTimezone(timezone.label)}>
+        { !isUserTimezone ? 'x' : '' }
+      </div>
       <div
         className={`Timezone-calendar-container ${timezone.label}`}
         onMouseEnter={handlePointerMove}
@@ -77,13 +75,6 @@ const Timezone = ({ timezone, highlightTime, isFixedTime, onHighlightTimeChange,
 
 const newDate = (timezone) => {
   return moment().tz(timezone);
-};
-
-const tick = (setDate, tz) => {
-  const updateDate = () => setDate(newDate(tz.utc[0]));
-
-  const timeout = 10 * 1000; // 10 seeconds
-  setTimeout(updateDate, timeout);
 };
 
 const offsetToUTCTime = (highlightTimezone, offset, height) => {

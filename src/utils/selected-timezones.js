@@ -14,6 +14,5 @@ export function removeSelectedTimezone(removeTz, timezones) {
       newTimezones.push(tz);
     }
   });
-  console.log(newTimezones)
   return newTimezones;
 }
