@@ -11,17 +11,20 @@ const Page = () => {
   const _getTimezone = (tz) => getTimezone(tz, timezones, search_names);
 
   let savedTimezones = [];
-  let savedTimezonesString = localStorage.getItem('timezones');
-  if (savedTimezonesString !== null) {
-    savedTimezones = JSON.parse(savedTimezonesString)
-  }
-
   let savedIsFixedTime = false;
   let savedHighlightTime = null
-  let savedHighlightTimeString = localStorage.getItem('highlightTime');
-  if (savedHighlightTimeString !== null) {
-    savedHighlightTime = JSON.parse(savedHighlightTimeString);
-    savedIsFixedTime = true;
+  try {
+    let savedTimezonesString = localStorage.getItem('timezones');
+    if (savedTimezonesString !== null) {
+      savedTimezones = JSON.parse(savedTimezonesString)
+    }
+
+    let savedHighlightTimeString = localStorage.getItem('highlightTime');
+    if (savedHighlightTimeString !== null) {
+      savedHighlightTime = JSON.parse(savedHighlightTimeString);
+      savedIsFixedTime = true;
+    }
+  } catch (e) {
   }
 
   const [userTimezone, _] = useState(_getTimezone(moment.tz.guess()));
