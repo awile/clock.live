@@ -57,7 +57,7 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
       <div
         className={`Timezone-calendar-container ${timezone.label}`}
         onMouseEnter={handlePointerMove}
-        onMouseMove={handlePointerMove}
+        onMouseMove={(e) => !isFixedTime && handlePointerMove(e)}
         onTouchMove={handlePointerMove}
         onClick={handlePointerClick}>
         { highlightTime &&
