@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { useSiteData } from 'react-static'
 import { Timezone, Search } from './components/';
-import { addSelectedTimezone, getTimezone, newDate, newUTCDate, removeSelectedTimezone } from './utils/';
+import { addSelectedTimezone, getTimezone, newUTCDate, removeSelectedTimezone } from './utils/';
 import * as moment from 'moment-timezone';
 
 const Page = () => {
@@ -16,12 +16,21 @@ const Page = () => {
     savedTimezones = JSON.parse(savedTimezonesString)
   }
 
+  let savedIsFixedTime = false;
+  let savedHighlightTime = null
+  let savedHighlightTimeString = localStorage.getItem('highlightTime');
+  if (savedHighlightTimeString !== null) {
+    savedHighlightTime = JSON.parse(savedHighlightTimeString);
+    savedIsFixedTime = true;
+  }
+
   const [userTimezone, _] = useState(_getTimezone(moment.tz.guess()));
   const [selectedTimezones, setSelectedTimezones] = useState(savedTimezones);
-  const [isFixedTime, setIsFixedTime] = useState(false);
-  const [highlightTime, setHighlightTime] = useState(null);
+  const [isFixedTime, setIsFixedTime] = useState(savedIsFixedTime);
+  const [highlightTime, setHighlightTime] = useState(savedHighlightTime);
   const [globalTime, setGlobalTime] = useState(newUTCDate());
   tick(setGlobalTime, newUTCDate);
+  console.log('highlightTime', highlightTime)
 
   const handleAddTimezone = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
@@ -37,7 +46,20 @@ const Page = () => {
   const handleClickOffTimezone = () => {
     setIsFixedTime(false);
     setHighlightTime(null);
-  }
+    localStorage.removeItem('highlightTime');
+  };
+  const handleSetHighlightTime = (time) => {
+    setHighlightTime(time);
+    if (isFixedTime) {
+      localStorage.setItem('highlightTime', JSON.stringify(time));
+    }
+  };
+  const handleSetIsFixedTime = () => {
+    setIsFixedTime(true);
+    if (highlightTime) {
+      localStorage.setItem('highlightTime', JSON.stringify(highlightTime));
+    }
+  };
 
   return (
     <React.Fragment>
@@ -51,8 +73,8 @@ const Page = () => {
             highlightTime={highlightTime}
             isUserTimezone={true}
             isFixedTime={isFixedTime}
-            onHighlightTimeChange={setHighlightTime}
-            setIsFixedTime={setIsFixedTime}
+            onHighlightTimeChange={handleSetHighlightTime}
+            setIsFixedTime={handleSetIsFixedTime}
             timezone={userTimezone} />
           {
             selectedTimezones.map(tz =>
@@ -61,9 +83,9 @@ const Page = () => {
                 globalTime={globalTime}
                 highlightTime={highlightTime}
                 isFixedTime={isFixedTime}
-                onHighlightTimeChange={setHighlightTime}
+                onHighlightTimeChange={handleSetHighlightTime}
                 onRemoveTimezone={handleRemoveTimezone}
-                setIsFixedTime={setIsFixedTime}
+                setIsFixedTime={handleSetIsFixedTime}
                 timezone={tz} />
           )}
           <div className=''>
