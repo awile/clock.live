@@ -30,7 +30,6 @@ const Page = () => {
   const [highlightTime, setHighlightTime] = useState(savedHighlightTime);
   const [globalTime, setGlobalTime] = useState(newUTCDate());
   tick(setGlobalTime, newUTCDate);
-  console.log('highlightTime', highlightTime)
 
   const handleAddTimezone = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);

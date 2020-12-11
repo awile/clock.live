@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import Time from '../time';
 import * as moment from 'moment-timezone';
@@ -9,6 +9,7 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
     timezone.utc[0] = 'America/Los_Angeles';
   }
 
+  const [isDragging, setIsDragging] = useState(false);
   const localTime =  globalTime.tz(timezone.label)
   const currentOffset = (localTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
   const startOfDay = newDate(timezone.utc[0]).startOf('day');
@@ -22,7 +23,7 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
   const handlePointerMove = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isFixedTime) { return; }
+    if (isFixedTime && !isDragging) { return; }
     const time = _getUpdateTime(e);
     onHighlightTimeChange(time);
   };
@@ -57,7 +58,9 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
       <div
         className={`Timezone-calendar-container ${timezone.label}`}
         onMouseEnter={handlePointerMove}
-        onMouseMove={(e) => !isFixedTime && handlePointerMove(e)}
+        onMouseUp={() => setIsDragging(false)}
+        onMouseDown={() => setIsDragging(true)}
+        onMouseMove={(e) => (!isFixedTime || isDragging) && handlePointerMove(e)}
         onTouchMove={handlePointerMove}
         onClick={handlePointerClick}>
         { highlightTime &&
