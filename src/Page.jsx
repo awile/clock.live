@@ -10,8 +10,14 @@ const Page = () => {
   const { timezones, search_names } = useSiteData();
   const _getTimezone = (tz) => getTimezone(tz, timezones, search_names);
 
+  let savedTimezones = [];
+  let savedTimezonesString = localStorage.getItem('timezones');
+  if (savedTimezonesString !== null) {
+    savedTimezones = JSON.parse(savedTimezonesString)
+  }
+
   const [userTimezone, _] = useState(_getTimezone(moment.tz.guess()));
-  const [selectedTimezones, setSelectedTimezones] = useState([]);
+  const [selectedTimezones, setSelectedTimezones] = useState(savedTimezones);
   const [isFixedTime, setIsFixedTime] = useState(false);
   const [highlightTime, setHighlightTime] = useState(null);
   const [globalTime, setGlobalTime] = useState(newUTCDate());
@@ -20,10 +26,12 @@ const Page = () => {
   const handleAddTimezone = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
     setSelectedTimezones(newSelectedTimezones);
+    localStorage.setItem('timezones', JSON.stringify(newSelectedTimezones));
   };
   const handleRemoveTimezone = (tz) => {
     const newSelectedTimezones = removeSelectedTimezone(_getTimezone(tz), selectedTimezones);
     setSelectedTimezones(newSelectedTimezones);
+    localStorage.setItem('timezones', JSON.stringify(newSelectedTimezones));
   };
 
   const handleClickOffTimezone = () => {
