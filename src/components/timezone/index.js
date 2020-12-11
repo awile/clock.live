@@ -5,10 +5,12 @@ import Time from '../time';
 import * as moment from 'moment-timezone';
 
 const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
-  if (timezone.label === 'America/Los_Angeles') {
+  if (timezone.label === 'America/Los_Angeles') { // TODO: Fix This
     timezone.utc[0] = 'America/Los_Angeles';
   }
-  const currentOffset = (globalTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
+
+  const localTime =  globalTime.tz(timezone.label)
+  const currentOffset = (localTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
   const startOfDay = newDate(timezone.utc[0]).startOf('day');
 
   let highlightMoment, highlightOffset;

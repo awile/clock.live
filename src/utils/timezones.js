@@ -14,3 +14,7 @@ export function getSearchName(tz) {
 export function newDate(timezone) {
   return moment().tz(timezone);
 }
+
+export function newUTCDate() {
+  return moment().utc();
+}

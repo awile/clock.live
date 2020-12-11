@@ -3,11 +3,12 @@ import React from 'react'
 const Time = ({ date, timezone }) => {
 
   const formatDate = (date) => {
-    return `${timezone.label} - ${date.format('hh:mm A')}`;
+    return date.format('h:mm A');
   };
 
   return (
     <div className='Time-container' style={{ textAlign: 'center' }}>
+      <div>{timezone.value}</div>
       <div>{formatDate(date)}</div>
     </div>
   );

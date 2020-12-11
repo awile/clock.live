@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { useSiteData } from 'react-static'
 import { Timezone, Search } from './components/';
-import { addSelectedTimezone, getTimezone, newDate, removeSelectedTimezone } from './utils/';
+import { addSelectedTimezone, getTimezone, newDate, newUTCDate, removeSelectedTimezone } from './utils/';
 import * as moment from 'moment-timezone';
 
 const Page = () => {
@@ -14,8 +14,8 @@ const Page = () => {
   const [selectedTimezones, setSelectedTimezones] = useState([]);
   const [isFixedTime, setIsFixedTime] = useState(false);
   const [highlightTime, setHighlightTime] = useState(null);
-  const [globalTime, setGlobalTime] = useState(newDate(userTimezone.utc[0]));
-  tick(setGlobalTime, userTimezone);
+  const [globalTime, setGlobalTime] = useState(newUTCDate());
+  tick(setGlobalTime, newUTCDate);
 
   const handleAddTimezone = (tz) => {
     const newSelectedTimezones = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
@@ -68,8 +68,8 @@ const Page = () => {
   );
 };
 
-const tick = (setTime, timezone) => {
-  const updateTime = () => setTime(newDate(timezone.utc[0]));
+const tick = (setTime, newTime) => {
+  const updateTime = () => setTime(newTime());
   const timeout = 10 * 1000; // 10 seconds
   setTimeout(updateTime, timeout);
 };
