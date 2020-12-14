@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Time from '../time';
 import * as moment from 'moment-timezone';
 
-const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
+const Timezone = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highlightTime, isFirst, isLast, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
 
   const [isDragging, setIsDragging] = useState(false);
   const localTime =  globalTime.tz(timezone.timezone)
@@ -47,10 +47,22 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
   return (
     <div className='Timezone'>
       <Time date={globalTime} timezone={timezone} />
-      <div
-        className="Timezone-remove-tz"
-        onClick={() => onRemoveTimezone(timezone.timezone)}>
-        { !isUserTimezone ? 'x' : '' }
+      <div className='Timezone-options'>
+        <div
+          className='Timezone-move-left'
+          onClick={handleMoveLeft}>
+          { isFirst || isUserTimezone ? ' ' : '<' }
+        </div>
+        <div
+          className="Timezone-remove-tz"
+          onClick={() => onRemoveTimezone(timezone.timezone)}>
+          { !isUserTimezone ? 'x' : '' }
+        </div>
+        <div
+          className='Timezone-move-right'
+          onClick={handleMoveRight}>
+          { isLast || isUserTimezone ? ' ' : '>' }
+        </div>
       </div>
       <div
         className={`Timezone-calendar-container ${timezone.timezone}`}

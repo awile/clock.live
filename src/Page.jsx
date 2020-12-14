@@ -3,7 +3,14 @@ import React, { useState } from 'react'
 
 import { useSiteData } from 'react-static'
 import { Timezone, Search } from './components/';
-import { addSelectedTimezone, getTimezone, newUTCDate, removeSelectedTimezone } from './utils/';
+import {
+  addSelectedTimezone,
+  moveSelectedTimezoneLeft,
+  moveSelectedTimezoneRight,
+  getTimezone,
+  newUTCDate,
+  removeSelectedTimezone
+} from './utils/';
 import * as moment from 'moment-timezone';
 
 const Page = () => {
@@ -44,6 +51,16 @@ const Page = () => {
     setSelectedTimezones(newSelectedTimezones);
     localStorage.setItem('timezones', JSON.stringify(newSelectedTimezones));
   };
+  const handleMoveRight = (timezoneIndex) => {
+    const newOrderSelectedTimezones = moveSelectedTimezoneRight(timezoneIndex, selectedTimezones);
+    setSelectedTimezones(newOrderSelectedTimezones);
+    localStorage.setItem('timezones', JSON.stringify(newOrderSelectedTimezones));
+  }
+  const handleMoveLeft = (timezoneIndex) => {
+    const newOrderSelectedTimezones = moveSelectedTimezoneLeft(timezoneIndex, selectedTimezones);
+    setSelectedTimezones(newOrderSelectedTimezones);
+    localStorage.setItem('timezones', JSON.stringify(newOrderSelectedTimezones));
+  }
 
   const handleClickOffTimezone = () => {
     setIsFixedTime(false);
@@ -79,10 +96,14 @@ const Page = () => {
             setIsFixedTime={handleSetIsFixedTime}
             timezone={userTimezone} />
           {
-            selectedTimezones.map(tz =>
+            selectedTimezones.map((tz, i) =>
               <Timezone
                 key={tz.label}
+                isFirst={i === 0}
+                isLast={i === (selectedTimezones.length - 1)}
                 globalTime={globalTime}
+                handleMoveLeft={() => handleMoveLeft(i)}
+                handleMoveRight={() => handleMoveRight(i)}
                 highlightTime={highlightTime}
                 isFixedTime={isFixedTime}
                 onHighlightTimeChange={handleSetHighlightTime}

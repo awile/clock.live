@@ -7,7 +7,8 @@ const Time = ({ date, timezone }) => {
   };
   let label = timezone.timezone;
   if (label.includes('/')) {
-    label = (label.split('/').reverse().join(', '))
+    // label = (label.split('/').reverse().join(', '))
+    label = label.split('/').slice(-1)[0];
   }
   label = label.replaceAll('_', ' ');
 

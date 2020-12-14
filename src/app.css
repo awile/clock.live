@@ -107,10 +107,16 @@ code {
   text-align: right;
 }
 
+.Timezone-options {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 75px;
+}
+
 .Timezone-remove-tz {
   min-height: 18px;
 }
-.Timezone-remove-tz:hover {
+.Timezone-remove-tz, .Timezone-move-left, .Timezone-move-right {
   cursor: pointer;
 }
 
