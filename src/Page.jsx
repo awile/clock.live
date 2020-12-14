@@ -35,7 +35,16 @@ const Page = () => {
   }
 
   const [userTimezone, _] = useState(_getTimezone(moment.tz.guess()));
-  const [selectedTimezones, setSelectedTimezones] = useState(savedTimezones);
+  let initialSelectedTimezones = savedTimezones;
+  if (!savedTimezones.map(tz => tz.timezone).includes(userTimezone.timezone)) {
+    initialSelectedTimezones = [userTimezone].concat(savedTimezones);
+    try  {
+      localStorage.setItem('timezones', JSON.stringify(initialSelectedTimezones));
+    } catch(e) {
+    }
+  }
+
+  const [selectedTimezones, setSelectedTimezones] = useState(initialSelectedTimezones);
   const [isFixedTime, setIsFixedTime] = useState(savedIsFixedTime);
   const [highlightTime, setHighlightTime] = useState(savedHighlightTime);
   const [globalTime, setGlobalTime] = useState(newUTCDate());
@@ -87,14 +96,6 @@ const Page = () => {
       </div>
       <div className='App-tz'>
         <div className='App-tz-containers'>
-          <Timezone
-            globalTime={globalTime}
-            highlightTime={highlightTime}
-            isUserTimezone={true}
-            isFixedTime={isFixedTime}
-            onHighlightTimeChange={handleSetHighlightTime}
-            setIsFixedTime={handleSetIsFixedTime}
-            timezone={userTimezone} />
           {
             selectedTimezones.map((tz, i) =>
               <Timezone
@@ -106,6 +107,7 @@ const Page = () => {
                 handleMoveRight={() => handleMoveRight(i)}
                 highlightTime={highlightTime}
                 isFixedTime={isFixedTime}
+                isUserTimezone={tz.timezone === userTimezone.timezone}
                 onHighlightTimeChange={handleSetHighlightTime}
                 onRemoveTimezone={handleRemoveTimezone}
                 setIsFixedTime={handleSetIsFixedTime}

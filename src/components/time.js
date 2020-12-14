@@ -10,7 +10,7 @@ const Time = ({ date, timezone }) => {
     // label = (label.split('/').reverse().join(', '))
     label = label.split('/').slice(-1)[0];
   }
-  label = label.replaceAll('_', ' ');
+  label = label.replace(/_/g, ' ');
 
   return (
     <div className='Time-container' style={{ textAlign: 'center' }}>

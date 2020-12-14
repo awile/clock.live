@@ -51,7 +51,7 @@ const Timezone = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highl
         <div
           className='Timezone-move-left'
           onClick={handleMoveLeft}>
-          { isFirst || isUserTimezone ? ' ' : '<' }
+          { isFirst ? ' ' : '<' }
         </div>
         <div
           className="Timezone-remove-tz"
@@ -61,7 +61,7 @@ const Timezone = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highl
         <div
           className='Timezone-move-right'
           onClick={handleMoveRight}>
-          { isLast || isUserTimezone ? ' ' : '>' }
+          { isLast ? ' ' : '>' }
         </div>
       </div>
       <div

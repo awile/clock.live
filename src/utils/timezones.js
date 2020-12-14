@@ -8,7 +8,7 @@ export function getTimezone(tz, timezones, search_names) {
 }
 
 export function getSearchName(tz) {
-  return (tz.includes('/') ? tz.split('/')[1] : tz).replaceAll('_', ' ');
+  return (tz.includes('/') ? tz.split('/')[1] : tz).replace(/_/g, ' ');
 }
 
 export function newDate(timezone) {
