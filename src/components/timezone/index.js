@@ -5,14 +5,11 @@ import Time from '../time';
 import * as moment from 'moment-timezone';
 
 const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
-  if (timezone.label === 'America/Los_Angeles') { // TODO: Fix This
-    timezone.utc[0] = 'America/Los_Angeles';
-  }
 
   const [isDragging, setIsDragging] = useState(false);
-  const localTime =  globalTime.tz(timezone.label)
+  const localTime =  globalTime.tz(timezone.timezone)
   const currentOffset = (localTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
-  const startOfDay = newDate(timezone.utc[0]).startOf('day');
+  const startOfDay = newDate(timezone.timezone).startOf('day');
 
   let highlightMoment, highlightOffset;
   if (highlightTime) {
@@ -37,7 +34,7 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
   };
 
   const _getUpdateTime= (e) => {
-    const timezoneContainer = document.getElementsByClassName(timezone.label)[0];
+    const timezoneContainer = document.getElementsByClassName(timezone.timezone)[0];
     const rect = timezoneContainer.getBoundingClientRect();
     const offset = e.clientY - rect.top;
     const yOffset = (offset >= rect.height) ?
@@ -52,11 +49,11 @@ const Timezone = ({ globalTime, timezone, highlightTime, isFixedTime, onHighligh
       <Time date={globalTime} timezone={timezone} />
       <div
         className="Timezone-remove-tz"
-        onClick={() => onRemoveTimezone(timezone.label)}>
+        onClick={() => onRemoveTimezone(timezone.timezone)}>
         { !isUserTimezone ? 'x' : '' }
       </div>
       <div
-        className={`Timezone-calendar-container ${timezone.label}`}
+        className={`Timezone-calendar-container ${timezone.timezone}`}
         onMouseEnter={handlePointerMove}
         onMouseUp={() => setIsDragging(false)}
         onMouseDown={() => setIsDragging(true)}
@@ -91,7 +88,7 @@ const offsetToUTCTime = (highlightTimezone, offset, height) => {
 };
 
 const utcTimeToOffset = (timezone, utcTimeoffset, startOfDay) => {
-  const local = moment(utcTimeoffset).tz(timezone.utc[0]);
+  const local = moment(utcTimeoffset).tz(timezone.timezone);
   const duration = moment.duration(local.diff(startOfDay));
   let minutes = duration.asMinutes();
   const minutesInADay = 24 * 60;
@@ -102,7 +99,7 @@ const utcTimeToOffset = (timezone, utcTimeoffset, startOfDay) => {
 };
 
 const utcToLocalTimezone = (timezone, utcTimeoffset) => {
-  return moment(utcTimeoffset).tz(timezone.utc[0]);
+  return moment(utcTimeoffset).tz(timezone.timezone);
 };
 
 export default Timezone;

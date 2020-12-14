@@ -57,6 +57,7 @@ code {
 }
 
 .Timezone {
+  width: 150px;
   max-width: 150px;
   margin-right: 10px;
 }
@@ -79,6 +80,7 @@ code {
 }
 
 .Timezone-calendar-container {
+  cursor: pointer;
   position: relative;
   /* height: 85%; */
   height: 671px;
@@ -116,12 +118,21 @@ code {
   padding: 0 5px;
 }
 
+.Time-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
 .Search-container {
   position: absolute;
   margin-left: 15px;
   width: 300px;
   text-align: left;
   background: white;
+}
+.Search-container p {
+  cursor: pointer;
 }
 
 .Deselect-container {
