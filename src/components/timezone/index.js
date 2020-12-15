@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-import Time from '../time';
+import Time from '../time/';
 import * as moment from 'moment-timezone';
 
 const Timezone = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highlightTime, isFirst, isLast, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }) => {
