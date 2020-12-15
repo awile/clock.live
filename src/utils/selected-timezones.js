@@ -25,7 +25,7 @@ export function moveSelectedTimezoneRight(index, timezones) {
   timezones.forEach((tz, i) => {
     if (i === index) {
       newTimezones.push(timezones[swapIndex]);
-    } else if (i == (swapIndex)) {
+    } else if (i === swapIndex) {
       newTimezones.push(timezones[index]);
     } else {
       newTimezones.push(tz);
@@ -42,7 +42,7 @@ export function moveSelectedTimezoneLeft(index, timezones) {
   timezones.forEach((tz, i) => {
     if (i === index) {
       newTimezones.push(timezones[swapIndex]);
-    } else if (i == (swapIndex)) {
+    } else if (i === swapIndex) {
       newTimezones.push(timezones[index]);
     } else {
       newTimezones.push(tz);
