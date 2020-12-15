@@ -14,11 +14,12 @@ const TIMEZONE_DATA_PATH = './data/tz.json';
 async function loadTimezones(path) {
   const fileString = await readFileAsync(path, 'utf8');
   return JSON.parse(fileString);
-};
+}
 
 
 export default {
   siteRoot: 'https://clocks.live',
   maxThreads: 1, // Remove this when you start doing any static generation
-  getSiteData: () => loadTimezones(TIMEZONE_DATA_PATH)
+  getSiteData: () => loadTimezones(TIMEZONE_DATA_PATH),
+  plugins: ['react-static-plugin-typescript']
 }

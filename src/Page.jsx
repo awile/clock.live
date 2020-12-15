@@ -93,6 +93,7 @@ const Page = () => {
     <React.Fragment>
       <div className="App-header">
         <h2 className='header'>clocks.live</h2>
+        <Test num={"what"} />
       </div>
       <div className='App-tz'>
         <div className='App-tz-containers'>
