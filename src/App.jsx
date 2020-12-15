@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 
 import Page from './Page';
-import './app.css'
+import './app.scss'
 
 const App = () => {
   return (
