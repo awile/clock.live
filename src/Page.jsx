@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 import { useSiteData } from 'react-static'
-import { Timezone, Search } from './components/';
+import { TimezoneContainer, Search } from './components/';
 import {
   addSelectedTimezone,
   moveSelectedTimezoneLeft,
@@ -98,7 +98,7 @@ const Page = () => {
         <div className='App-tz-containers'>
           {
             selectedTimezones.map((tz, i) =>
-              <Timezone
+              <TimezoneContainer
                 key={tz.label}
                 isFirst={i === 0}
                 isLast={i === (selectedTimezones.length - 1)}

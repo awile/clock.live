@@ -1,5 +1,5 @@
 
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, FunctionComponent, KeyboardEvent, useState } from 'react'
 
 import './_search.scss';
 
@@ -8,7 +8,7 @@ type SearchProps = {
   onChange: (timezone: string) => void
 }
 
-export default function Search({ searchNames, onChange }: SearchProps) {
+const Search: FunctionComponent<SearchProps> = ({ searchNames, onChange }: SearchProps) => {
   const [term, setTerm] = useState<string>('');
   const [matches, setMatches] = useState<string[]>([]);
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -48,3 +48,5 @@ export default function Search({ searchNames, onChange }: SearchProps) {
     </div>
   );
 }
+
+export default Search;

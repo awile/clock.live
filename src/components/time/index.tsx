@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Moment } from 'moment-timezone';
 import { Timezone } from '../../types/';
 
@@ -8,7 +8,7 @@ type TimeProps = {
   timezone: Timezone
 }
 
-export default function Time({ date, timezone }: TimeProps) {
+const Time: FunctionComponent<TimeProps> = ({ date, timezone }: TimeProps) => {
   const formatDate = (date: Moment): string => {
     return date.format('h:mm A');
   };
@@ -19,4 +19,6 @@ export default function Time({ date, timezone }: TimeProps) {
       <div>{formatDate(date)}</div>
     </div>
   );
-};
+}
+
+export default Time;

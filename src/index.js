@@ -1,4 +1,5 @@
-import React from 'react'
+
+import React from 'react' // eslint-disable-line no-use-before-define
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 

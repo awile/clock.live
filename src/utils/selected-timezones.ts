@@ -1,14 +1,16 @@
 
-export function addSelectedTimezone(addTz, timezones=[]) {
-  const newTimezones = timezones.slice();
+import { Timezone } from '../types/';
+
+export function addSelectedTimezone(addTz: Timezone, timezones: Timezone[] = []): Timezone[] {
+  const newTimezones: Timezone[] = timezones.slice();
   if (!timezones.find(tz => tz.timezone === addTz.timezone)) {
     newTimezones.push(addTz);
   }
   return newTimezones;
 }
 
-export function removeSelectedTimezone(removeTz, timezones) {
-  let newTimezones = [];
+export function removeSelectedTimezone(removeTz: Timezone, timezones: Timezone[]): Timezone[] {
+  const newTimezones: Timezone[] = [];
   timezones.forEach(tz => {
     if (tz.timezone !== removeTz.timezone) {
       newTimezones.push(tz);
@@ -17,10 +19,10 @@ export function removeSelectedTimezone(removeTz, timezones) {
   return newTimezones;
 }
 
-export function moveSelectedTimezoneRight(index, timezones) {
+export function moveSelectedTimezoneRight(index: number, timezones: Timezone[]): Timezone[] {
   if (index === (timezones.length - 1)) { return timezones; }
 
-  let newTimezones = [];
+  const newTimezones: Timezone[] = [];
   const swapIndex = index + 1;
   timezones.forEach((tz, i) => {
     if (i === index) {
@@ -34,10 +36,10 @@ export function moveSelectedTimezoneRight(index, timezones) {
   return newTimezones;
 }
 
-export function moveSelectedTimezoneLeft(index, timezones) {
+export function moveSelectedTimezoneLeft(index: number, timezones: Timezone[]): Timezone[] {
   if (index === 0) { return timezones; }
 
-  let newTimezones = [];
+  const newTimezones: Timezone[] = [];
   const swapIndex = index - 1;
   timezones.forEach((tz, i) => {
     if (i === index) {
