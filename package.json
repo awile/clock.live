@@ -4,7 +4,7 @@
   "scripts": {
     "start": "react-static start",
     "stage": "react-static build --staging",
-    "build": "react-static build",
+    "build": "yarn run typecheck && yarn run lint && react-static build",
     "analyze": "react-static build --analyze",
     "serve": "serve dist -p 3000",
     "lint": "eslint src/",
