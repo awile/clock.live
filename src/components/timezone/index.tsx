@@ -97,7 +97,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
         onClick={handlePointerClick}>
         { highlightTime &&
           <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
-            {highlightMoment ? highlightMoment.format('h:mm A') : ''}
+            {highlightMoment ? highlightMoment.format('h:mm A') + ' - '  + highlightMoment.format('MMM Do') : ''}
           </div>
         }
         <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}></div>
