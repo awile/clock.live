@@ -27,7 +27,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
   const currentOffset: number = (localTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
   const startOfDay: Moment = newDate(timezone.timezone).startOf('day');
 
-  let highlightMoment: Moment | undefined; 
+  let highlightMoment: Moment | undefined;
   let highlightOffset: number | undefined;
   if (highlightTime) {
     highlightMoment = utcToLocalTimezone(timezone, highlightTime);
@@ -56,7 +56,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
 
   const _getUpdateTime= (e: MouseEvent): string | null => {
     const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(timezone.timezone);
-    const timezoneContainer: Element | null = (elements.length > 0) ? elements[0] : null; 
+    const timezoneContainer: Element | null = (elements.length > 0) ? elements[0] : null;
     if (!timezoneContainer) { return null; }
 
     const rect: ClientRect = timezoneContainer.getBoundingClientRect();
@@ -68,6 +68,9 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     return utcTime;
   };
 
+  const timeDiffInMinutes: number | null = (highlightTime && localTime) ?
+    Math.round(Math.abs(localTime.diff(highlightTime)) / (60 * 1000)) :
+    null;
   return (
     <div className='Timezone'>
       <Time date={globalTime} timezone={timezone} />
@@ -100,7 +103,11 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
             {highlightMoment ? highlightMoment.format('h:mm A') + ' - '  + highlightMoment.format('MMM Do') : ''}
           </div>
         }
-        <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}></div>
+        <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}>
+          <span className={`Timezone-current-label ${(timeDiffInMinutes && timeDiffInMinutes <= 30) ? 'Timezone--hide-current' : ''}`}>
+            { localTime.format('h:mm A') + ' - '  + localTime.format('MMM Do') }
+          </span>
+        </div>
         <div className='Timezone-ruler'></div>
         {
           Array.from(Array(24).keys()).map(num => (
