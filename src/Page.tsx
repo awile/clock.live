@@ -1,95 +1,70 @@
 
-import React, { FunctionComponent, useState } from 'react'
+import React, { FC, useContext, useState } from 'react'
 
-import { useSiteData } from 'react-static'
 import { TimezoneContainer, Search } from './components/';
 import { Timezone } from './types/';
 import {
   addSelectedTimezone,
   moveSelectedTimezoneLeft,
   moveSelectedTimezoneRight,
-  getTimezone,
   newUTCDate,
   removeSelectedTimezone
 } from './utils/';
-import moment, { Moment } from 'moment-timezone';
+import { HighlightTimeContext, TimezonesContext } from './providers/';
+import { Moment } from 'moment-timezone';
 
-type PageProps = {
-}
+const Page: FC = () => {
+  const { 
+    getTimezoneByName,
+    selectedTimezones,
+    searchNames,
+    updateSelectedTimezones,
+    userTimezone
+  } = useContext(TimezonesContext);
 
-const Page: FunctionComponent<PageProps> = () => {
-  const { timezones, search_names } = useSiteData();
-  const _getTimezone = (tz: string): Timezone => getTimezone(tz, timezones, search_names);
+  const {
+    highlightTime,
+    updateHighlightTime,
+    isFixedTime,
+    updateIsFixedTime
+  } = useContext(HighlightTimeContext);
 
-  let savedTimezones: Timezone[] = [];
-  let savedIsFixedTime = false;
-  let savedHighlightTime = '';
-  try {
-    const savedTimezonesString: string | null = localStorage.getItem('timezones');
-    if (savedTimezonesString !== null) {
-      savedTimezones = JSON.parse(savedTimezonesString)
-    }
-
-    const savedHighlightTimeString: string | null = localStorage.getItem('highlightTime');
-    if (savedHighlightTimeString !== null) {
-      savedHighlightTime = JSON.parse(savedHighlightTimeString);
-      savedIsFixedTime = true;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-  const userTimezone = _getTimezone(moment.tz.guess());
-  let initialSelectedTimezones: Timezone[] = savedTimezones;
-  if (!savedTimezones.map(tz => tz.timezone).includes(userTimezone.timezone)) {
-    initialSelectedTimezones = [userTimezone].concat(savedTimezones);
-    try  {
-      localStorage.setItem('timezones', JSON.stringify(initialSelectedTimezones));
-    } catch(e) {
-      console.error(e);
-    }
-  }
-
-  const [selectedTimezones, setSelectedTimezones] = useState<Timezone[]>(initialSelectedTimezones);
-  const [isFixedTime, setIsFixedTime] = useState<boolean>(savedIsFixedTime);
-  const [highlightTime, setHighlightTime] = useState<string>(savedHighlightTime);
   const [globalTime, setGlobalTime] = useState<Moment>(newUTCDate());
   tick(setGlobalTime, newUTCDate);
 
   const handleAddTimezone = (tz: string): void => {
-    const newSelectedTimezones: Timezone[] = addSelectedTimezone(_getTimezone(tz), selectedTimezones);
-    setSelectedTimezones(newSelectedTimezones);
-    localStorage.setItem('timezones', JSON.stringify(newSelectedTimezones));
+    const newSelectedTimezones: Timezone[] = addSelectedTimezone(getTimezoneByName(tz), selectedTimezones);
+    updateSelectedTimezones(newSelectedTimezones);
   };
   const handleRemoveTimezone = (tz: string): void => {
-    const newSelectedTimezones: Timezone[] = removeSelectedTimezone(_getTimezone(tz), selectedTimezones);
-    setSelectedTimezones(newSelectedTimezones);
+    const newSelectedTimezones: Timezone[] = removeSelectedTimezone(getTimezoneByName(tz), selectedTimezones);
+    updateSelectedTimezones(newSelectedTimezones);
     localStorage.setItem('timezones', JSON.stringify(newSelectedTimezones));
   };
   const handleMoveRight = (timezoneIndex: number): void => {
     const newOrderSelectedTimezones: Timezone[] = moveSelectedTimezoneRight(timezoneIndex, selectedTimezones);
-    setSelectedTimezones(newOrderSelectedTimezones);
+    updateSelectedTimezones(newOrderSelectedTimezones);
     localStorage.setItem('timezones', JSON.stringify(newOrderSelectedTimezones));
   }
   const handleMoveLeft = (timezoneIndex: number): void => {
     const newOrderSelectedTimezones: Timezone[] = moveSelectedTimezoneLeft(timezoneIndex, selectedTimezones);
-    setSelectedTimezones(newOrderSelectedTimezones);
+    updateSelectedTimezones(newOrderSelectedTimezones);
     localStorage.setItem('timezones', JSON.stringify(newOrderSelectedTimezones));
   }
 
   const handleClickOffTimezone = (): void => {
-    setIsFixedTime(false);
-    setHighlightTime('');
+    updateIsFixedTime(false);
+    updateHighlightTime('');
     localStorage.removeItem('highlightTime');
   };
   const handleSetHighlightTime = (time: string): void => {
-    setHighlightTime(time);
+    updateHighlightTime(time);
     if (isFixedTime) {
       localStorage.setItem('highlightTime', JSON.stringify(time));
     }
   };
   const handleSetIsFixedTime = (): void => {
-    setIsFixedTime(true);
+    updateIsFixedTime(true);
     if (highlightTime) {
       localStorage.setItem('highlightTime', JSON.stringify(highlightTime));
     }
@@ -120,7 +95,7 @@ const Page: FunctionComponent<PageProps> = () => {
                 timezone={tz} />
           )}
           <div className=''>
-            <Search searchNames={Object.keys(search_names)} onChange={handleAddTimezone} />
+            <Search searchNames={Object.keys(searchNames)} onChange={handleAddTimezone} />
             <div className='Deselect-container' onClick={handleClickOffTimezone}>deselect time</div>
           </div>
         </div>

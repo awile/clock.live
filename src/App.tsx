@@ -1,6 +1,7 @@
 
 import React, { FunctionComponent, Suspense } from 'react'
 
+import { HighlightTimeProvider, TimezonesProvider } from './providers/';
 import Page from './Page';
 import './app.scss'
 
@@ -11,7 +12,11 @@ const App: FunctionComponent<AppProps> = () => {
   return (
     <Suspense fallback={<div>loading...</div>}>
       <div className="App">
-        <Page />
+        <TimezonesProvider>
+          <HighlightTimeProvider>
+            <Page />
+          </HighlightTimeProvider>
+        </TimezonesProvider>
       </div>
     </Suspense>
   );
