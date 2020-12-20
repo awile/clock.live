@@ -1,9 +1,11 @@
 
-import React, { FunctionComponent, MouseEvent, useState } from 'react';
+import React, { FunctionComponent, MouseEvent, useEffect, useState } from 'react';
 
 import Time from '../time/';
 import { Timezone } from '../../types/'
-import moment, { Moment } from 'moment-timezone';
+import { newDate, timeToOffset, offsetToUTCTime, utcToLocalTimezone } from './timezone-utils';
+import { Moment } from 'moment-timezone';
+import Options from './options/options';
 
 import './_timezone.scss';
 
@@ -25,15 +27,23 @@ type TimezoneProps = {
 const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highlightTime, isFirst, isLast, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }: TimezoneProps) => {
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const localTime: Moment =  globalTime.tz(timezone.timezone)
-  const currentOffset: number = (localTime.hour() * 28) + ((globalTime.minute() / 60) * 28);
+  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
+  const localTime: Moment = globalTime.tz(timezone.timezone)
+  const currentOffset: number = timeToOffset(localTime);
   const startOfDay: Moment = newDate(timezone.timezone).startOf('day');
+
+
+  useEffect(() => {
+    if (!hasLoaded) {
+      setHasLoaded(true);
+    }
+  }, [hasLoaded]);
 
   let highlightMoment: Moment | undefined;
   let highlightOffset: number | undefined;
   if (highlightTime) {
     highlightMoment = utcToLocalTimezone(timezone, highlightTime);
-    highlightOffset = utcTimeToOffset(timezone, highlightTime, startOfDay);
+    highlightOffset = timeToOffset(highlightMoment);
   }
 
   const handlePointerMove = (e: MouseEvent): void => {
@@ -73,43 +83,40 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
   const timeDiffInMinutes: number | null = (highlightTime && localTime) ?
     Math.round(Math.abs(localTime.diff(highlightTime)) / (60 * 1000)) :
     null;
+  const handleSetDragging = (value: boolean) => () => setIsDragging(value);
+  const handleMouseMove = (e: MouseEvent) => (!isFixedTime || isDragging) && handlePointerMove(e);
+  const handleRemoveTimezone = () => onRemoveTimezone(timezone.timezone);
+
   return (
     <div className='Timezone'>
       <Time date={globalTime} timezone={timezone} />
-      <div className='Timezone-options'>
-        <div
-          className='Timezone-move-left'
-          onClick={handleMoveLeft}>
-          { isFirst ? ' ' : '<' }
-        </div>
-        <div
-          className="Timezone-remove-tz"
-          onClick={() => onRemoveTimezone(timezone.timezone)}>
-          { !isUserTimezone ? 'x' : '' }
-        </div>
-        <div
-          className='Timezone-move-right'
-          onClick={handleMoveRight}>
-          { isLast ? ' ' : '>' }
-        </div>
-      </div>
+      <Options 
+        handleMoveLeft={handleMoveLeft}
+        handleRemoveTimezone={handleRemoveTimezone}
+        handleMoveRight={handleMoveRight}
+        isFirst={isFirst}
+        isLast={isLast}
+        isUserTimezone={isUserTimezone}
+      />
       <div
         className={`Timezone-calendar-container ${timezone.timezone}`}
         onMouseEnter={handlePointerMove}
-        onMouseUp={() => setIsDragging(false)}
-        onMouseDown={() => setIsDragging(true)}
-        onMouseMove={(e) => (!isFixedTime || isDragging) && handlePointerMove(e)}
-        onClick={handlePointerClick}>
-        { highlightTime &&
+        onMouseUp={handleSetDragging(false)}
+        onMouseDown={handleSetDragging(true)}
+        onMouseMove={handleMouseMove}
+        onClick={handlePointerClick}
+      >
+        { hasLoaded && highlightTime &&
           <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
-            {highlightMoment ? highlightMoment.format('h:mm A') + ' - '  + highlightMoment.format('MMM Do') : ''}
+            {highlightMoment ? `${highlightMoment.format('h:mm A')} - ${highlightMoment.format('MMM Do')}` : ''}
           </div>
         }
-        <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}>
-          <span className={`Timezone-current-label ${(timeDiffInMinutes && timeDiffInMinutes <= 30) ? 'Timezone--hide-current' : ''}`}>
-            { localTime.format('h:mm A') + ' - '  + localTime.format('MMM Do') }
-          </span>
-        </div>
+        { hasLoaded &&
+          <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}>
+            <span className={`Timezone-current-label ${(timeDiffInMinutes && timeDiffInMinutes <= 30) ? 'Timezone--hide-current' : ''}`}>
+              { `${localTime.format('h:mm A')} - ${localTime.format('MMM Do')}` }
+            </span>
+          </div>}
         <div className='Timezone-ruler'></div>
         {
           Array.from(Array(24).keys()).map(num => (
@@ -119,31 +126,6 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
       </div>
     </div>
   );
-};
-
-const newDate = (timezone: string): Moment => {
-  return moment().tz(timezone);
-};
-
-const offsetToUTCTime = (highlightTimezone: Moment, offset: number, height: number): string => {
-  const x = Math.floor(offset/height * (24 * 60));
-  const highlightMoment = highlightTimezone.clone().add(x, 'minutes');
-  return highlightMoment.utc().format();
-};
-
-const utcTimeToOffset = (timezone: Timezone, utcTimeoffset: string, startOfDay: Moment): number => {
-  const local = moment(utcTimeoffset).tz(timezone.timezone);
-  const duration = moment.duration(local.diff(startOfDay));
-  let minutes = duration.asMinutes();
-  const minutesInADay = 24 * 60;
-  if (minutes < 0) {
-    minutes = minutesInADay + minutes;
-  }
-  return (((minutes % minutesInADay) / minutesInADay) * 672) - 1;
-};
-
-const utcToLocalTimezone = (timezone: Timezone, utcTimeoffset: string): Moment => {
-  return moment(utcTimeoffset).tz(timezone.timezone);
 };
 
 export default TimezoneContainer;

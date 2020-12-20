@@ -37,45 +37,43 @@
   &-calendar-container {
     cursor: pointer;
     position: relative;
-    /* height: 85%; */
-    height: 671px;
+    height: 85%;
+    min-height: 550px;
     margin-top: 15px;
-    /* border-left : 1px solid black; */
     border-top: 1px solid gray;
   }
-}
 
-.Timezone-ruler {
-  /* height: calc(100% + 20px); */
-  height: 691px;
-  width: 5px;
-  margin-left: 5px;
-  margin-top: -10px;
-  position: absolute;
-  border-right: 1px solid gray;
-}
+  &-ruler {
+    height: 100%;
+    width: 5px;
+    margin-left: 5px;
+    // margin: -10px 0 -10px 5px;
+    position: absolute;
+    border-right: 1px solid gray;
+  }
+  
+  &-hour-block {
+    height: calc((100% / 24) - 1px);
+    border-bottom: 1px solid gray;
+    font-size: 10px;
+    text-align: right;
+  }
+  
+  &-options {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 75px;
+  }
+  
+  &-remove-tz {
+    min-height: 18px;
+  }
 
-.Timezone-hour-block {
-  /* height: 4.02%; */
-  height: 27px;
-  border-bottom: 1px solid gray;
-  font-size: 10px;
-  text-align: right;
-}
-
-.Timezone-options {
-  display: inline-flex;
-  justify-content: space-between;
-  width: 75px;
-}
-
-.Timezone-remove-tz {
-  min-height: 18px;
-}
-.Timezone-remove-tz, .Timezone-move-left, .Timezone-move-right {
-  cursor: pointer;
-}
-
-.Time-container {
-  padding: 0 5px;
+  &-remove-tz, &-move-left, &-move-right {
+    cursor: pointer;
+  }
+  
+  &-container {
+    padding: 0 5px;
+  }
 }
