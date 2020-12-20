@@ -3,6 +3,8 @@ import React, { FunctionComponent } from 'react'
 import { Moment } from 'moment-timezone';
 import { Timezone } from '../../types/';
 
+import './_time.scss';
+
 type TimeProps = {
   date: Moment,
   timezone: Timezone

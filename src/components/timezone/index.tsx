@@ -5,6 +5,8 @@ import Time from '../time/';
 import { Timezone } from '../../types/'
 import moment, { Moment } from 'moment-timezone';
 
+import './_timezone.scss';
+
 type TimezoneProps = {
   globalTime: Moment
   timezone: Timezone
