@@ -12,12 +12,7 @@ export function offsetToUTCTime(highlightTimezone: Moment, offset: number, heigh
   return highlightMoment.utc().format();
 }
 
-export function timeToOffset(time: Moment): number {
-  let height = 0;
-  const container = document.querySelector('.Timezone-calendar-container');
-  if (!container) { return 0; }
-
-  height = container.clientHeight;
+export function timeToOffset(time: Moment, containerHeight: number): number {
   const startOfDay: Moment = time.clone().startOf('day');
   const duration = moment.duration(time.diff(startOfDay));
   let minutes = duration.asMinutes();
@@ -25,7 +20,7 @@ export function timeToOffset(time: Moment): number {
   if (minutes < 0) {
     minutes = minutesInADay + minutes;
   }
-  return (((minutes % minutesInADay) / minutesInADay) * height) - 1;
+  return (((minutes % minutesInADay) / minutesInADay) * containerHeight) - 1;
 }
 
 export function utcToLocalTimezone(timezone: Timezone, utcTimeoffset: string): Moment {

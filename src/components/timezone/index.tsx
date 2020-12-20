@@ -3,6 +3,7 @@ import React, { FunctionComponent, MouseEvent, useEffect, useState } from 'react
 
 import Time from '../time/';
 import { Timezone } from '../../types/'
+import { debounce } from '../../utils/';
 import { newDate, timeToOffset, offsetToUTCTime, utcToLocalTimezone } from './timezone-utils';
 import { Moment } from 'moment-timezone';
 import Options from './options/options';
@@ -27,23 +28,34 @@ type TimezoneProps = {
 const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highlightTime, isFirst, isLast, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }: TimezoneProps) => {
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
+  const [containerHeight, setContainerHeight] = useState<number>(0);
   const localTime: Moment = globalTime.tz(timezone.timezone)
-  const currentOffset: number = timeToOffset(localTime);
+  const currentOffset: number = timeToOffset(localTime, containerHeight);
   const startOfDay: Moment = newDate(timezone.timezone).startOf('day');
 
 
   useEffect(() => {
-    if (!hasLoaded) {
-      setHasLoaded(true);
+    const updateSize = debounce(() => {
+      console.log('updatesize')
+      const container = document.querySelector('.Timezone-calendar-container');
+      if (!container) { return; }
+      setContainerHeight(container.clientHeight);
+    }, 100);
+
+    if (containerHeight === 0) {
+      updateSize();
     }
-  }, [hasLoaded]);
+    window.addEventListener('resize', updateSize);
+    return () => {
+      window.removeEventListener('resize', updateSize);
+    }
+  }, [containerHeight]);
 
   let highlightMoment: Moment | undefined;
   let highlightOffset: number | undefined;
   if (highlightTime) {
     highlightMoment = utcToLocalTimezone(timezone, highlightTime);
-    highlightOffset = timeToOffset(highlightMoment);
+    highlightOffset = timeToOffset(highlightMoment, containerHeight);
   }
 
   const handlePointerMove = (e: MouseEvent): void => {
@@ -66,7 +78,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     }
   };
 
-  const _getUpdateTime= (e: MouseEvent): string | null => {
+  const _getUpdateTime = (e: MouseEvent): string | null => {
     const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(timezone.timezone);
     const timezoneContainer: Element | null = (elements.length > 0) ? elements[0] : null;
     if (!timezoneContainer) { return null; }
@@ -99,19 +111,19 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
         isUserTimezone={isUserTimezone}
       />
       <div
-        className={`Timezone-calendar-container ${timezone.timezone}`}
+        className={`Timezone-calendar-container ${timezone.timezone} ${isFirst ? 'Timezone--first' : ''}`}
         onMouseEnter={handlePointerMove}
         onMouseUp={handleSetDragging(false)}
         onMouseDown={handleSetDragging(true)}
         onMouseMove={handleMouseMove}
         onClick={handlePointerClick}
       >
-        { hasLoaded && highlightTime &&
+        { containerHeight !== 0 && highlightTime &&
           <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
             {highlightMoment ? `${highlightMoment.format('h:mm A')} - ${highlightMoment.format('MMM Do')}` : ''}
           </div>
         }
-        { hasLoaded &&
+        { containerHeight !== 0 &&
           <div className='Timezone-current-time' style={{ marginTop: `${currentOffset}px` }}>
             <span className={`Timezone-current-label ${(timeDiffInMinutes && timeDiffInMinutes <= 30) ? 'Timezone--hide-current' : ''}`}>
               { `${localTime.format('h:mm A')} - ${localTime.format('MMM Do')}` }
