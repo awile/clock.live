@@ -17,15 +17,14 @@ export function setLocalStorageKey(key: string, value: string): boolean {
   }
 }
 
-export function upgradeLocalStorageSchema(): void {
-  const SCHEMA_VERSION = 'schemaVersion';
-  const CURRENT_STORAGE_VERSION = '0';
-  const schemaVersion: string = getLocalStorageKey('schema-version', '');
-  if (!schemaVersion) {
-    _clearLocalStorage();
-    setLocalStorageKey(SCHEMA_VERSION, CURRENT_STORAGE_VERSION);
-  }
-}
+// function _removeLocalStorageKey(key: string): boolean {
+//   try {
+//     localStorage.removeItem(key);
+//     return true;
+//   } catch (e) {
+//     return false;
+//   }
+// }
 
 function _clearLocalStorage(): boolean {
   try {
@@ -34,4 +33,22 @@ function _clearLocalStorage(): boolean {
   } catch (e) {
     return false;
   }
+}
+
+const SELECTED_TIMEZONES = 'selected-timezones';
+const HIGHLIGHT_TIME = 'highlight-time';
+const SCHEMA_VERSION = 'schema-version';
+const CURRENT_STORAGE_VERSION = '0';
+
+export function upgradeLocalStorageSchema(): void {
+  const schemaVersion: string = getLocalStorageKey(SCHEMA_VERSION, '');
+  if (schemaVersion === '') {
+    _clearLocalStorage();
+    setLocalStorageKey(SCHEMA_VERSION, CURRENT_STORAGE_VERSION);
+  }
+}
+
+export {
+  SELECTED_TIMEZONES,
+  HIGHLIGHT_TIME
 }

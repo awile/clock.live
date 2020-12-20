@@ -4,8 +4,7 @@ import moment from 'moment-timezone';
 import { useSiteData } from 'react-static'
 
 import { Timezone } from '../types/';
-import { getTimezone, getLocalStorageKey, setLocalStorageKey } from '../utils/';
-
+import { SELECTED_TIMEZONES, getTimezone, getLocalStorageKey, setLocalStorageKey } from '../utils/';
 
 interface TimezonesContext {
   getTimezoneByName: (tz: string) => Timezone
@@ -21,8 +20,6 @@ interface SiteData {
 }
 
 const TimezonesContext: Context<TimezonesContext> = createContext({} as TimezonesContext);
-
-const SELECTED_TIMEZONES = 'timezones';
 
 const TimezonesProvider: FC = ({ children }) => {
   const { timezones, search_names }: SiteData  = useSiteData();

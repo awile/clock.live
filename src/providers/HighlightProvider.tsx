@@ -1,7 +1,7 @@
 
 import React, { Context, createContext, FC, useState } from 'react';
 
-import { getLocalStorageKey, setLocalStorageKey } from '../utils/';
+import { HIGHLIGHT_TIME, getLocalStorageKey, setLocalStorageKey } from '../utils/';
 
 interface HighlightTimeContext {
   highlightTime: string
@@ -11,8 +11,6 @@ interface HighlightTimeContext {
 }
 
 const HighlightTimeContext: Context<HighlightTimeContext> = createContext({} as HighlightTimeContext);
-
-const HIGHLIGHT_TIME = 'highlightTime';
 
 const HighlightTimeProvider: FC = ({ children }) => {
 
