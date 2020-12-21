@@ -1,22 +1,26 @@
 .Timezone {
-  width: 150px;
-  max-width: 150px;
+  width: 175px;
+  max-width: 175px;
   margin-right: 10px;
 
   &-current-time {
     border-top: 1px solid red;
-    width: 100%;
+    width: 92%;
     height: 1px;
     position: absolute;
     font-size: 10px;
     text-align: left;
     padding-left: 15px;
+    text-transform: uppercase;
+    z-index: 10;
   }
 
   &-current-label {
     visibility: visible;
     opacity: 1;
     transition: visibility 0s, opacity 0.3s ease-out;
+    background: white;
+    padding: 0 2px;
   }
 
   &--hide-current {
@@ -26,12 +30,19 @@
 
   &-highlight-time {
     border-top: 1px solid blue;
-    width: 100%;
+    width: 92%;
     height: 1px;
     position: absolute;
-    font-size: 10px;
     text-align: left;
     padding-left: 15px;
+    font-size: 10px;
+    z-index: 100;
+  }
+
+  &-highlight-label {
+    background: white;
+    padding: 0 2px;
+    text-transform: uppercase;
   }
 
   &-calendar-container {
@@ -44,7 +55,7 @@
   }
 
   &--first {
-    margin-top: 12px;
+    margin-top: 9px;
   }
 
   &-ruler {

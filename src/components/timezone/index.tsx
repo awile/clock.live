@@ -101,7 +101,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
 
   return (
     <div className='Timezone'>
-      <Time date={globalTime} timezone={timezone} />
+      <Time className={isFirst ? 'Time--first' : ''} date={globalTime} timezone={timezone} />
       <Options 
         handleMoveLeft={handleMoveLeft}
         handleRemoveTimezone={handleRemoveTimezone}
@@ -120,7 +120,9 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
       >
         { containerHeight !== 0 && highlightTime &&
           <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>
-            {highlightMoment ? `${highlightMoment.format('h:mm A')} - ${highlightMoment.format('MMM Do')}` : ''}
+            <span className='Timezone-highlight-label'>
+              {highlightMoment ? `${highlightMoment.format('h:mm A')} - ${highlightMoment.format('MMM Do')}` : ''}
+            </span>
           </div>
         }
         { containerHeight !== 0 &&

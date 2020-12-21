@@ -96,7 +96,7 @@ const Page: FC = () => {
           )}
           <div className=''>
             <Search searchNames={Object.keys(searchNames)} onChange={handleAddTimezone} />
-            <div className='Deselect-container' onClick={handleClickOffTimezone}>deselect time</div>
+            <div className='Deselect-container' onClick={handleClickOffTimezone}>Deselect Time</div>
           </div>
         </div>
       </div>

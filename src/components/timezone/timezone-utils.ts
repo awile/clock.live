@@ -15,12 +15,12 @@ export function offsetToUTCTime(highlightTimezone: Moment, offset: number, heigh
 export function timeToOffset(time: Moment, containerHeight: number): number {
   const startOfDay: Moment = time.clone().startOf('day');
   const duration = moment.duration(time.diff(startOfDay));
-  let minutes = duration.asMinutes();
+  let minutes = Math.floor(duration.asMinutes());
   const minutesInADay = 24 * 60;
   if (minutes < 0) {
     minutes = minutesInADay + minutes;
   }
-  return (((minutes % minutesInADay) / minutesInADay) * containerHeight) - 1;
+  return Math.floor(((minutes % minutesInADay) / minutesInADay) * containerHeight) - 1;
 }
 
 export function utcToLocalTimezone(timezone: Timezone, utcTimeoffset: string): Moment {
