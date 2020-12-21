@@ -36,7 +36,6 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
 
   useEffect(() => {
     const updateSize = debounce(() => {
-      console.log('updatesize')
       const container = document.querySelector('.Timezone-calendar-container');
       if (!container) { return; }
       setContainerHeight(container.clientHeight);

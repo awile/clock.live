@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { useSiteData } from 'react-static'
 
 import { Timezone } from '../types/';
-import { SELECTED_TIMEZONES, getTimezone, getLocalStorageKey, setLocalStorageKey } from '../utils/';
+import { SELECTED_TIMEZONES, getTimezone, getLabelFromTimezone, getLocalStorageKey, setLocalStorageKey } from '../utils/';
 
 interface TimezonesContext {
   getTimezoneByName: (tz: string) => Timezone
@@ -26,6 +26,8 @@ const TimezonesProvider: FC = ({ children }) => {
   const getTimezoneByName = (tz: string): Timezone => getTimezone(tz, timezones, search_names);
 
   const userTimezone = getTimezoneByName(moment.tz.guess());
+  userTimezone.label = getLabelFromTimezone(userTimezone.label);
+
   const savedSelectedTimezones: string = getLocalStorageKey(SELECTED_TIMEZONES, '[]');
   const initialSelectedTimezones = getInitialSelectedTimezones(savedSelectedTimezones, userTimezone);
   setLocalStorageKey(SELECTED_TIMEZONES, JSON.stringify(initialSelectedTimezones));

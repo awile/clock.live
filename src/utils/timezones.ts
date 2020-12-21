@@ -12,6 +12,11 @@ export function getSearchName(tz: string): string {
   return (tz.includes('/') ? tz.split('/')[1] : tz).replace(/_/g, ' ');
 }
 
+export function getLabelFromTimezone(tz: string): string {
+  const timezoneCity = tz.split('/').slice(-1)[0];
+  return timezoneCity.replace(/_/g, ' ');
+}
+
 export function newDate(timezone: string): Moment {
   return moment().tz(timezone);
 }

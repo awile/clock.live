@@ -1,5 +1,7 @@
+@import '../../_colors.scss';
+
 .Time {
-  border-left: 1px solid black;
+  border-left: 1px solid $BorderColor;
 
   &--first {
     border-left: none;

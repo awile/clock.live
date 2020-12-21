@@ -1,5 +1,5 @@
 
-import React, { FC, useContext, useState } from 'react'
+import React, { FC, MouseEvent, useContext, useState } from 'react'
 
 import { TimezoneContainer, Search } from './components/';
 import { Timezone } from './types/';
@@ -52,7 +52,9 @@ const Page: FC = () => {
     localStorage.setItem('timezones', JSON.stringify(newOrderSelectedTimezones));
   }
 
-  const handleClickOffTimezone = (): void => {
+  const handleClickOffTimezone = (e: MouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
     updateIsFixedTime(false);
     updateHighlightTime('');
     localStorage.removeItem('highlightTime');
@@ -72,8 +74,9 @@ const Page: FC = () => {
 
   return (
     <React.Fragment>
-      <div className="App-header">
-        <h2 className='header'>clocks.live</h2>
+      <div className="app-Header">
+        {/* <div className='app-Header-circle'></div> */}
+        <span className='app-Header-title'>clocks.live</span>
       </div>
       <div className='App-tz'>
         <div className='App-tz-containers'>
