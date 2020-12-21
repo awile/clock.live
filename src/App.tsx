@@ -24,12 +24,14 @@ const AppContainer: FC = () => {
   
   if (typeof document !== 'undefined') {
     document.onreadystatechange = () => {
-      if (document.readyState === 'complete') {
+      if (document.readyState === 'complete' && !isDOMLoaded) {
         setIsDOMLoaded(true);
       }
     };
   } else {
-    setIsDOMLoaded(true);
+    if (!isDOMLoaded) {
+      setIsDOMLoaded(true);
+    }
   }
   return (
       <div className="App">

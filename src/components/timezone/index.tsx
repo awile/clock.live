@@ -29,6 +29,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [containerHeight, setContainerHeight] = useState<number>(0);
+  const [hasResizeListener, setHasResizeListener] = useState<boolean>(false);
   const localTime: Moment = globalTime.tz(timezone.timezone)
   const currentOffset: number = timeToOffset(localTime, containerHeight);
   const startOfDay: Moment = newDate(timezone.timezone).startOf('day');
@@ -44,11 +45,11 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     if (containerHeight === 0) {
       updateSize();
     }
-    window.addEventListener('resize', updateSize);
-    return () => {
-      window.removeEventListener('resize', updateSize);
+    if (!hasResizeListener) {
+      window.addEventListener('resize', updateSize);
+      setHasResizeListener(true);
     }
-  }, [containerHeight]);
+  }, [containerHeight, hasResizeListener]);
 
   let highlightMoment: Moment | undefined;
   let highlightOffset: number | undefined;
