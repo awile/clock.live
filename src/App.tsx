@@ -22,11 +22,15 @@ const App: FC<AppProps> = () => {
 const AppContainer: FC = () => {
   const [isDOMLoaded, setIsDOMLoaded] = useState(false);
   
-  document.onreadystatechange = () => {
-    if (document.readyState === 'complete') {
-      setIsDOMLoaded(true);
-    }
-  };
+  if (typeof document !== 'undefined') {
+    document.onreadystatechange = () => {
+      if (document.readyState === 'complete') {
+        setIsDOMLoaded(true);
+      }
+    };
+  } else {
+    setIsDOMLoaded(true);
+  }
   return (
       <div className="App">
         <TimezonesProvider>
