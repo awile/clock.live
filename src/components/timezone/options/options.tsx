@@ -2,7 +2,7 @@
 import React, { FC } from 'react';
 
 import './_options.scss';
-const closeIcon = require('../../../images/close.svg');
+const closeIcon = require('../../../images/close.svg'); // eslint-disable-line
 
 interface OptionsProps {
   handleMoveLeft: () => void
