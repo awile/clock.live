@@ -1,6 +1,6 @@
 
 import React from 'react' // eslint-disable-line no-use-before-define
-import ReactDOM from 'react-dom'
+import { hydrate, render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
 // Your top level component
@@ -14,10 +14,10 @@ if (typeof document !== 'undefined') {
   const target = document.getElementById('root')
 
   const renderMethod = target.hasChildNodes()
-    ? ReactDOM.hydrate
-    : ReactDOM.render
+    ? hydrate
+    : render
 
-  const render = Comp => {
+  const renderer = Comp => {
     renderMethod(
       <AppContainer>
         <Comp />
@@ -27,12 +27,12 @@ if (typeof document !== 'undefined') {
   }
 
   // Render!
-  render(App)
+  renderer(App)
 
   // Hot Module Replacement
   if (module && module.hot) {
     module.hot.accept('./App', () => {
-      render(App)
+      renderer(App)
     })
   }
 }

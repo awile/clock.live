@@ -4,7 +4,7 @@
   "scripts": {
     "start": "react-static start",
     "stage": "react-static build --staging",
-    "build": "yarn run typecheck && yarn run lint && react-static build",
+    "build": "yarn run typecheck && yarn run lint && NODE_ENV=production react-static build",
     "analyze": "react-static build --analyze",
     "serve": "serve dist -p 3000",
     "lint": "eslint src/",
@@ -12,16 +12,9 @@
     "clean": "rm -rf dist/*"
   },
   "dependencies": {
-    "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-static": "^7.2.0",
-    "react-static-plugin-reach-router": "^7.2.0",
-    "react-static-plugin-sass": "^7.3.0",
-    "react-static-plugin-sitemap": "^7.2.0",
-    "react-static-plugin-source-filesystem": "^7.2.0",
-    "typescript": "^4.1.3"
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
@@ -36,7 +29,15 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "moment-timezone-data-webpack-plugin": "^1.3.0",
+    "react-static": "^7.4.2",
+    "react-static-plugin-reach-router": "^7.4.2",
+    "react-static-plugin-sass": "^7.3.0",
+    "react-static-plugin-sitemap": "^7.4.2",
+    "react-static-plugin-source-filesystem": "^7.4.2",
     "react-static-plugin-typescript": "^7.4.2",
-    "serve": "^11.1.0"
+    "serve": "^11.1.0",
+    "typescript": "^4.1.3",
+    "webpack-bundle-analyzer": "^4.3.0"
   }
 }
