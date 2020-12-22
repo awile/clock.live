@@ -8,10 +8,11 @@ import './_time.scss';
 type TimeProps = {
   className: string | null
   date: Moment,
+  highlightDayOfWeek: number | null
   timezone: Timezone
 }
 
-const Time: FunctionComponent<TimeProps> = ({ className, date, timezone }: TimeProps) => {
+const Time: FunctionComponent<TimeProps> = ({ className, date, highlightDayOfWeek, timezone }: TimeProps) => {
   const formatDate = (date: Moment): string => {
     return date.format('h:mm A');
   };
@@ -24,7 +25,11 @@ const Time: FunctionComponent<TimeProps> = ({ className, date, timezone }: TimeP
       <div className='Time-days'>
         {
           weekdays.map((day, i) => (
-            <div key={day + i} className={`Time-day-week ${(i === date.isoWeekday() ? 'Time--current-day' : '')}`}>
+          <div key={day + i} 
+            className={`Time-day-week 
+                        ${i === date.isoWeekday()  ? 'Time--current-day' : ''}
+                        ${i === highlightDayOfWeek ? 'Time--highlight-day' : ''}`}
+          >
               {day}
             </div>
           ))

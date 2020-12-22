@@ -109,7 +109,11 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
         isLast={isLast}
         isUserTimezone={isUserTimezone}
       />
-      <Time className={isFirst ? 'Time--first' : ''} date={globalTime} timezone={timezone} />
+      <Time 
+        className={isFirst ? 'Time--first' : ''} 
+        date={globalTime} timezone={timezone} 
+        highlightDayOfWeek={highlightMoment ? highlightMoment.isoWeekday() : null}
+      />
       <div
         className={`Timezone-calendar-container ${timezone.timezone} ${isFirst ? 'Timezone--first' : ''}`}
         onMouseEnter={handlePointerMove}

@@ -28,4 +28,9 @@
   &--current-day {
     color: #4C464B;
   }
+
+  &--highlight-day {
+    text-decoration: underline;
+    text-decoration-color: #2356bd;
+  }
 }
