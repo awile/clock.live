@@ -2,9 +2,10 @@
   width: 175px;
   max-width: 175px;
   margin-right: 10px;
+  position: relative;
 
   &-current-time {
-    border-top: 1px solid red;
+    border-top: 1px solid #d20001;
     width: 92%;
     height: 1px;
     position: absolute;
@@ -29,7 +30,7 @@
   }
 
   &-highlight-time {
-    border-top: 1px solid blue;
+    border-top: 1px solid #2356bd;
     width: 92%;
     height: 1px;
     position: absolute;
@@ -72,20 +73,6 @@
     border-bottom: 1px solid gray;
     font-size: 10px;
     text-align: right;
-  }
-  
-  &-options {
-    display: inline-flex;
-    justify-content: space-between;
-    width: 75px;
-  }
-  
-  &-remove-tz {
-    min-height: 18px;
-  }
-
-  &-remove-tz, &-move-left, &-move-right {
-    cursor: pointer;
   }
   
   &-container {

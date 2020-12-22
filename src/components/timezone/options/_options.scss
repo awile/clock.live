@@ -1,0 +1,37 @@
+
+.tz-Options {
+  display: inline-flex;
+  justify-content: flex-end;
+  width: calc(100% - 20px);
+  padding: 0 10px;
+
+  &-reorder {
+    display: inline-flex;
+    margin-right: auto;
+  }
+
+  &-remove-tz {
+    min-height: 18px;
+    min-width: 18px;
+  }
+
+  &-remove-tz, &-move-left, &-move-right {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  &-close-icon {
+    height: 18px;
+    width: 18px;
+  }
+
+  &-placeholder {
+    margin-top: 7px;
+    height: 18px;
+    width: 18px;
+  }
+
+  &-remove-tz:active > img {
+    content:url("../../../images/close-active.svg")
+  }
+}

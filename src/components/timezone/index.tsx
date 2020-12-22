@@ -101,7 +101,6 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
 
   return (
     <div className='Timezone'>
-      <Time className={isFirst ? 'Time--first' : ''} date={globalTime} timezone={timezone} />
       <Options 
         handleMoveLeft={handleMoveLeft}
         handleRemoveTimezone={handleRemoveTimezone}
@@ -110,6 +109,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
         isLast={isLast}
         isUserTimezone={isUserTimezone}
       />
+      <Time className={isFirst ? 'Time--first' : ''} date={globalTime} timezone={timezone} />
       <div
         className={`Timezone-calendar-container ${timezone.timezone} ${isFirst ? 'Timezone--first' : ''}`}
         onMouseEnter={handlePointerMove}

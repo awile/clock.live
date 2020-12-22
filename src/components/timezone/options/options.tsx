@@ -1,6 +1,9 @@
 
 import React, { FC } from 'react';
 
+import './_options.scss';
+const closeIcon = require('../../../images/close.svg');
+
 interface OptionsProps {
   handleMoveLeft: () => void
   handleRemoveTimezone: () => void
@@ -20,21 +23,27 @@ const Options: FC<OptionsProps> = ({
 }) => {
 
   return (
-    <div className='Timezone-options'>
-      <div
-        className='Timezone-move-left'
-        onClick={handleMoveLeft}>
-        { isFirst ? ' ' : '<' }
+    <div className='tz-Options'>
+      <div className='tz-Options-reorder'>
+        <div
+          className='tz-Options-move-left'
+          onClick={handleMoveLeft}>
+          { isFirst ? ' ' : '<' }
+        </div>
+        <div
+          className='tz-Options-move-right'
+          onClick={handleMoveRight}>
+          { isLast ? ' ' : '>' }
+        </div>
       </div>
       <div
-        className="Timezone-remove-tz"
+        className="tz-Options-remove-tz"
         onClick={handleRemoveTimezone}>
-        { !isUserTimezone ? 'x' : '' }
-      </div>
-      <div
-        className='Timezone-move-right'
-        onClick={handleMoveRight}>
-        { isLast ? ' ' : '>' }
+        { !isUserTimezone ? 
+            <img className='tz-Options-close-icon' src={closeIcon} alt='x' /> : 
+            <div className='tz-Options-placeholder'></div> 
+        }
+        {/* <img className='tz-Options-close-icon' src={closeIcon} alt='x' /> */}
       </div>
     </div>
   );

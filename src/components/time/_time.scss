@@ -14,4 +14,18 @@
     text-transform: uppercase;
     font-size: 14px;
   }
+
+  &-days {
+    display: inline-flex;
+    margin-top: 5px;
+  }
+
+  &-day-week {
+    padding: 0 3px;
+    color: #E2DCE1;
+  }
+
+  &--current-day {
+    color: #4C464B;
+  }
 }
