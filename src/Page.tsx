@@ -33,7 +33,12 @@ const Page: FC = () => {
   tick(setGlobalTime, newUTCDate);
 
   const handleAddTimezone = (tz: string): void => {
-    const newSelectedTimezones: Timezone[] = addSelectedTimezone(getTimezoneByName(tz), selectedTimezones);
+    const selectedTimezone = getTimezoneByName(tz);
+    if (!selectedTimezone.timezone) {
+      return;
+    }
+
+    const newSelectedTimezones: Timezone[] = addSelectedTimezone(selectedTimezone, selectedTimezones);
     updateSelectedTimezones(newSelectedTimezones);
   };
   const handleRemoveTimezone = (tz: string): void => {
