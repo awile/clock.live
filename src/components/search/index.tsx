@@ -1,7 +1,10 @@
 
-import React, { ChangeEvent, FunctionComponent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, MouseEvent, TouchEvent, FunctionComponent, KeyboardEvent, useState } from 'react'
 
 import './_search.scss';
+const searchAddIcon = require('../../images/search-add.svg'); // eslint-disable-line
+const searchAddIconActive = require('../../images/search-add-active.svg'); // eslint-disable-line
+const clearIcon = require('../../images/clear.svg'); // eslint-disable-line
 
 type SearchProps = {
   searchNames: string[]
@@ -12,14 +15,17 @@ type SearchProps = {
 const Search: FunctionComponent<SearchProps> = ({ searchNames, onChange, isMobile }: SearchProps) => {
   const [term, setTerm] = useState<string>('');
   const [matches, setMatches] = useState<string[]>([]);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.keyCode === 13 && matches.length > 0) { // Enter
       onChange(matches[0]);
       setTerm('');
       setMatches([]);
+      setIsFocused(false);
     } else if (event.keyCode === 13) {
       setTerm('');
       setMatches([]);
+      setIsFocused(false);
     }
   };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -32,25 +38,45 @@ const Search: FunctionComponent<SearchProps> = ({ searchNames, onChange, isMobil
       setMatches(searchHits);
     }
   };
-  const setOnClick = (value: string) => () => {
+  const setOnClick = (value: string) => (event: MouseEvent | TouchEvent) => {
+    console.log(event)
+    event.preventDefault();
+    event.stopPropagation();
     onChange(value);
     setTerm('');
     setMatches([]);
+    setIsFocused(false);
   }
+
+  const setFocus = () => setIsFocused(true);
+  const clearSearch = () => term.length > 0 && setTerm('');
   return (
     <div className={`Search ${isMobile ? 'Search--mobile' : ''}`}>
-      <input
-        type='text'
-        onKeyDown={handleKeyDown}
-        onChange={handleChange}
-        value={term} />
-      <div className='Search-results'>
-        {
-          matches.slice(0, 5).map(m => (
-            <p key={m} className='Search-item' onClick={setOnClick(m)}>{m}</p>
-          ))
-        }
+      <div className={`Search-bar ${isFocused ? 'Search-bar--focused' : ''}`}>
+        <img className='Search-icon' src={isFocused ? searchAddIconActive : searchAddIcon} alt='' />
+        <input
+          onFocus={setFocus}
+          type='text'
+          placeholder='Search a City'
+          onKeyDown={handleKeyDown}
+          onChange={handleChange}
+          value={term} />
+        <div className='Search-clear' onTouchStart={clearSearch} onClick={clearSearch}>
+          { term.length > 0 && 
+            <img src={clearIcon} alt="" /> }
+        </div>
       </div>
+      { term && isFocused &&
+        <div className='Search-results'>
+          { matches.length === 0 ?
+              <div className="Search-results--none">No cities found for <span>{`"${term}"`}</span>.</div> :
+              matches.slice(0, 5).map(m => (
+              <p key={m} className='Search-item' 
+                onTouchStart={setOnClick(m)} 
+                onClick={setOnClick(m)}>{m}</p>
+              ))
+          }
+        </div>}
     </div>
   );
 }

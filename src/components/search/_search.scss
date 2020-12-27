@@ -1,31 +1,104 @@
 
-.Search {
-  position: absolute;
-  margin-left: 15px;
-  width: 300px;
-  text-align: left;
-  background: white;
+@import '../../_colors.scss';
 
-  &--mobile {
-    width: 50vw;
-    position: relative;
-    margin: 0;
+.Search {
+  // position: absolute;
+  margin-left: 15px;
+  max-width: 300px;
+  text-align: left;
+
+  &-icon {
+    width: 18px;
+    height: 18px;
+    margin: auto 0;
+    padding-left: 7px;
+  }
+
+  &-clear {
+    width: 20px;
+    height: 20px;
+    margin: auto 10px auto 0;
+  }
+  &-clear:hover {
+    cursor: pointer;
+  }
+
+  &-bar {
+    display: flex;
+    background: white;
+    border-radius: 9999px;
+    border: 1px solid rgba(0,0,0,0);
+    background: $LightGray;
+    overflow: auto;
 
     input {
-      width: 90%;
+      background-color: $LightGray;
+      margin: auto 0;
+      border: none;
+      line-height: 18px;
+      padding: 5px;
+      font-size: 14px;
+      font-family: 'Sweet Sans Pro';
+      text-transform: uppercase;
+    }
+    input::placeholder {
+      font-size: 14px;
+      font-family: 'Sweet Sans Pro';
+      text-transform: uppercase;
+      font-color: $White;
+    }
+    input:focus {
+      outline: none;
     }
 
+    &--focused {
+      border: 1px solid $Blue;
+      background: white;
+
+      input {
+        background: white;
+      }
+    }
+  }
+
+  &--mobile {
+    margin: auto 0;
+    padding: 0 20px;
+
     .Search-results {
-      width: 50vw;
+      width: 100vw;
+      left: 0;
+      padding-top: 30px;
+      box-shadow: none;
+      height: calc(100vh - 53px);
+    }
+
+    .Search-item {
+      margin: 0;
+      padding: 10px 15px;
+      border-bottom: 1px solid $LightGray;
+    }
+    .Search-item:last-child {
+      border-bottom: none;
     }
   }
 
   &-results {
     position: absolute;
     background: #fff;
-    z-index: 100;
+    z-index: 200;
     width: 150px;
     box-shadow: 1px 6px 16px -9px #000000;
+    text-transform: uppercase;
+
+
+    &--none {
+      width: 100vw;
+      word-wrap: break-word;
+      text-align: center;
+      margin: 15px auto;
+      padding: 0 15px;
+    }
   }
 
   &-item {

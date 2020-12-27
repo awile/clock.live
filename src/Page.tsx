@@ -12,6 +12,7 @@ import {
 } from './utils/';
 import { HighlightTimeContext, MobileContext, TimezonesContext } from './providers/';
 import { Moment } from 'moment-timezone';
+const deselectIcon = require('./images/deselect.svg'); // eslint-disable-line 
 
 const Page: FC = () => {
   const {
@@ -82,18 +83,21 @@ const Page: FC = () => {
   return (
     <div className={`App ${isMobile ? 'App--mobile' : ''}`}>
       <div className="app-Header">
-        <span className='app-Header-title'>clocks.live</span>
-      </div>
-      { isMobile &&
-        <div className='app-Search app-Search--mobile'>
+        <span className='app-Header-title'>{!isMobile ? 'clocks.live' : 'c.l'}</span>
+        { isMobile &&
           <Search 
             searchNames={Object.keys(searchNames)} 
             onChange={handleAddTimezone} 
-            isMobile={isMobile} />
-          <div
-            className='app-Search-deselect app-Search-deselect--mobile'
-            onTouchStart={handleClickOffTimezone}>Deselect Time</div>
-        </div>}
+            isMobile={isMobile} /> }
+        { isMobile &&
+          <div className='app-Deselect app-Deselect--mobile'>
+            <div
+              className='app-Deselect-btn'
+              onTouchStart={handleClickOffTimezone}>
+              { highlightTime && <img className='app-Deselect-icon' src={deselectIcon} alt="" /> }
+            </div>
+          </div>}
+      </div>
       <div className='App-tz'>
         <div className='App-tz-containers'>
           {

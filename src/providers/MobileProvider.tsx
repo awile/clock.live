@@ -1,5 +1,5 @@
 
-import React, { Context, createContext, FC, UIEvent, useEffect, useState } from 'react';
+import React, { Context, createContext, FC, useEffect, useState } from 'react';
 import { debounce } from '../utils/';
 
 interface MobileContext {
