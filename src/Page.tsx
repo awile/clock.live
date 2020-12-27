@@ -63,9 +63,11 @@ const Page: FC = () => {
   const handleClickOffTimezone = (e: MouseEvent | TouchEvent): void => {
     e.preventDefault();
     e.stopPropagation();
-    updateIsFixedTime(false);
-    updateHighlightTime('');
-    localStorage.removeItem('highlightTime');
+    setTimeout(() => {
+      updateIsFixedTime(false);
+      updateHighlightTime('');
+      localStorage.removeItem('highlightTime');
+    }, 50);
   };
   const handleSetHighlightTime = (time: string): void => {
     updateHighlightTime(time);
@@ -98,7 +100,7 @@ const Page: FC = () => {
             </div>
           </div>}
       </div>
-      <div className='App-tz'>
+      <div className={`App-tz ${isMobile ? 'App-tz--mobile' : ''}`}>
         <div className='App-tz-containers'>
           {
             selectedTimezones.map((tz, i) =>

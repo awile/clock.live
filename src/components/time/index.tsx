@@ -7,21 +7,22 @@ import './_time.scss';
 
 type TimeProps = {
   className: string | null
-  date: Moment,
+  date: Moment
   highlightDayOfWeek: number | null
+  isMobile?: boolean
   timezone: Timezone
 }
 
-const Time: FunctionComponent<TimeProps> = ({ className, date, highlightDayOfWeek, timezone }: TimeProps) => {
+const Time: FunctionComponent<TimeProps> = ({ className, date, highlightDayOfWeek, isMobile, timezone }: TimeProps) => {
   const formatDate = (date: Moment): string => {
     return date.format('h:mm A');
   };
 
   const weekdays: string[] = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   return (
-    <div className={`Time ${className}`} style={{ textAlign: 'center' }}>
+    <div className={`Time ${className} ${isMobile ? 'Time--mobile' : ''}`} style={{ textAlign: 'center' }}>
       <div className='Time-label'>{timezone.label}</div>
-      <div>{formatDate(date)}</div>
+      <div className='Time-time'>{formatDate(date)}</div>
       <div className='Time-days'>
         {
           weekdays.map((day, i) => (

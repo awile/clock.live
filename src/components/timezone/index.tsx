@@ -1,10 +1,11 @@
 
-import React, { FunctionComponent, MouseEvent, useEffect, useState } from 'react';
+import React, { FunctionComponent, MouseEvent, useContext, useEffect, useState } from 'react';
 
 import Time from '../time/';
 import { Timezone } from '../../types/'
 import { debounce } from '../../utils/';
 import { newDate, timeToOffset, offsetToUTCTime, utcToLocalTimezone } from './timezone-utils';
+import { MobileContext } from '../../providers/';
 import { Moment } from 'moment-timezone';
 import Options from './options/options';
 
@@ -26,6 +27,8 @@ type TimezoneProps = {
 }
 
 const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timezone, handleMoveLeft, handleMoveRight, highlightTime, isFirst, isLast, isFixedTime, onHighlightTimeChange, onRemoveTimezone, setIsFixedTime, isUserTimezone }: TimezoneProps) => {
+
+  const { isMobile } = useContext(MobileContext);
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [containerHeight, setContainerHeight] = useState<number>(0);
@@ -100,19 +103,21 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
   const handleRemoveTimezone = () => onRemoveTimezone(timezone.timezone);
 
   return (
-    <div className='Timezone'>
+    <div className={'Timezone ' + (isMobile ? 'Timezone--mobile' : '')}>
       <Options 
         handleMoveLeft={handleMoveLeft}
         handleRemoveTimezone={handleRemoveTimezone}
         handleMoveRight={handleMoveRight}
         isFirst={isFirst}
         isLast={isLast}
+        isMobile={isMobile}
         isUserTimezone={isUserTimezone}
       />
       <Time 
         className={isFirst ? 'Time--first' : ''} 
         date={globalTime} timezone={timezone} 
         highlightDayOfWeek={highlightMoment ? highlightMoment.isoWeekday() : null}
+        isMobile={isMobile}
       />
       <div
         className={`Timezone-calendar-container ${timezone.timezone} ${isFirst ? 'Timezone--first' : ''}`}

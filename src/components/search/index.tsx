@@ -36,6 +36,7 @@ const Search: FunctionComponent<SearchProps> = ({ searchNames, onChange, isMobil
     } else {
       const searchHits: string[] = searchNames.filter(name => name.toLowerCase().includes(term.toLowerCase()));
       setMatches(searchHits);
+      setIsFocused(true);
     }
   };
   const setOnClick = (value: string) => (event: MouseEvent | TouchEvent) => {

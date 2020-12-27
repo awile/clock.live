@@ -11,6 +11,7 @@ interface OptionsProps {
   isFirst: boolean
   isLast: boolean
   isUserTimezone: boolean
+  isMobile?: boolean
 }
 
 const Options: FC<OptionsProps> = ({
@@ -19,22 +20,21 @@ const Options: FC<OptionsProps> = ({
   handleMoveRight,
   isFirst,
   isLast,
+  isMobile,
   isUserTimezone
 }) => {
 
   return (
-    <div className='tz-Options'>
-      <div className='tz-Options-reorder'>
-        <div
-          className='tz-Options-move-left'
-          onClick={handleMoveLeft}>
-          { isFirst ? ' ' : '<' }
-        </div>
-        <div
-          className='tz-Options-move-right'
-          onClick={handleMoveRight}>
-          { isLast ? ' ' : '>' }
-        </div>
+    <div className={'tz-Options ' + (isMobile ? 'tz-Options--mobile' : '')}>
+      <div
+        className={'tz-Options-move-left ' + (!isFirst ? 'tz-Options--active' : '')}
+        onClick={handleMoveLeft}>
+        { isFirst ? ' ' : '<' }
+      </div>
+      <div
+        className={'tz-Options-move-right ' + (!isLast ? 'tz-Options--active' : '')}
+        onClick={handleMoveRight}>
+        { isLast ? ' ' : '>' }
       </div>
       <div
         className="tz-Options-remove-tz"
@@ -43,7 +43,6 @@ const Options: FC<OptionsProps> = ({
             <img className='tz-Options-close-icon' src={closeIcon} alt='x' /> : 
             <div className='tz-Options-placeholder'></div> 
         }
-        {/* <img className='tz-Options-close-icon' src={closeIcon} alt='x' /> */}
       </div>
     </div>
   );

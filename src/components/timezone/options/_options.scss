@@ -1,37 +1,58 @@
 
-.tz-Options {
-  display: inline-flex;
-  justify-content: flex-end;
-  width: calc(100% - 20px);
-  padding: 0 10px;
+@import '../../../_colors.scss';
 
-  &-reorder {
-    display: inline-flex;
-    margin-right: auto;
-  }
+.tz-Options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: calc(100% - 20px);
+  padding: 10px;
 
   &-remove-tz {
-    min-height: 18px;
-    min-width: 18px;
+    display: flex;
+    height: 24px;
+    width: 24px;
+  }
+
+  &-remove-tz:active {
+    background: $LightGray;
+    border-radius: 999px;
+  }
+
+  &-close-icon {
+    height: 20px;
+    width: 20px;
   }
 
   &-remove-tz, &-move-left, &-move-right {
     cursor: pointer;
-    margin-left: 10px;
   }
 
-  &-close-icon {
-    height: 18px;
-    width: 18px;
+  &-move-left, &-move-right {
+    text-align: center;
+    width: 30px;
+    line-height: 25px;
+  }
+
+  &--active {
+    background: $LightGray;
+  }
+
+  &-move-left:active, &-move-right:active {
   }
 
   &-placeholder {
-    margin-top: 7px;
-    height: 18px;
-    width: 18px;
+    height: 24px;
+    width: 24px;
   }
 
   &-remove-tz:active > img {
     content:url("../../../images/close-active.svg")
+  }
+
+  &--mobile {
+    padding: 10px 5px;
+    margin: 0;
+    width: 125px;
   }
 }

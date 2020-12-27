@@ -33,4 +33,21 @@
     text-decoration: underline;
     text-decoration-color: #2356bd;
   }
+
+  &--mobile {
+    border-left: none;
+    .Time {
+      &-label {
+        font-size: 12px;
+      }
+
+      &-time {
+        font-size: 18px;
+      }
+
+      &-days {
+        display: none;
+      }
+    }
+  }
 }

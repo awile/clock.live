@@ -55,10 +55,6 @@
     border-top: 1px solid gray;
   }
 
-  &--first {
-    margin-top: 9px;
-  }
-
   &-ruler {
     height: 100%;
     width: 5px;
@@ -77,5 +73,20 @@
   
   &-container {
     padding: 0 5px;
+  }
+
+  &--mobile {
+    .Timezone {
+
+      &-highlight-label, &-current-label {
+        padding: 1px 2px;
+        margin-left: -15px;
+      }
+
+      &-calendar-container {
+        height: calc(100% - 102px - 45px); // 102 is height of menu, 45 padding
+        min-height: initial;
+      }
+    }
   }
 }
