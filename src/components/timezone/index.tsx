@@ -61,7 +61,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     highlightOffset = timeToOffset(highlightMoment, containerHeight);
   }
 
-  const handlePointerMove = (e: MouseEvent): void => {
+  const handlePointerMove = (e: MouseEvent | React.TouchEvent<HTMLDivElement>): void => {
     e.preventDefault();
     e.stopPropagation();
     if (isFixedTime && !isDragging) { return; }
@@ -81,13 +81,19 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     }
   };
 
-  const _getUpdateTime = (e: MouseEvent): string | null => {
+  const _getUpdateTime = (e: MouseEvent | React.TouchEvent<HTMLDivElement>): string | null => {
     const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(timezone.timezone);
     const timezoneContainer: Element | null = (elements.length > 0) ? elements[0] : null;
     if (!timezoneContainer) { return null; }
 
+    let eventOffset = 0;
+    if ((e as React.TouchEvent<HTMLDivElement>).touches) {
+      eventOffset = (e as React.TouchEvent<HTMLDivElement>).touches[0].clientY;
+    } else {
+      eventOffset = (e as MouseEvent).clientY;
+    }
     const rect: ClientRect = timezoneContainer.getBoundingClientRect();
-    const offset: number = ((e as MouseEvent).clientY) - rect.top;
+    const offset: number = (eventOffset) - rect.top;
     const yOffset: number = (offset >= rect.height) ?
       rect.height :
       Math.max(offset, 0);
@@ -99,7 +105,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     Math.round(Math.abs(localTime.diff(highlightTime)) / (60 * 1000)) :
     null;
   const handleSetDragging = (value: boolean) => () => setIsDragging(value);
-  const handleMouseMove = (e: MouseEvent) => (!isFixedTime || isDragging) && handlePointerMove(e);
+  const handleMouseMove = (e: MouseEvent | React.TouchEvent<HTMLDivElement>) => (!isFixedTime || isDragging) && handlePointerMove(e);
   const handleRemoveTimezone = () => onRemoveTimezone(timezone.timezone);
 
   return (
@@ -115,7 +121,8 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
       />
       <Time 
         className={isFirst ? 'Time--first' : ''} 
-        date={globalTime} timezone={timezone} 
+        date={globalTime} 
+        timezone={timezone} 
         highlightDayOfWeek={highlightMoment ? highlightMoment.isoWeekday() : null}
         isMobile={isMobile}
       />
@@ -126,6 +133,9 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
         onMouseDown={handleSetDragging(true)}
         onMouseMove={handleMouseMove}
         onClick={handlePointerClick}
+        onTouchStart={handleSetDragging(true)}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleSetDragging(false)}
       >
         { containerHeight !== 0 && highlightTime &&
           <div className='Timezone-highlight-time' style={{ marginTop: `${highlightOffset}px` }}>

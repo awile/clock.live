@@ -6,7 +6,9 @@
   src: url('./fonts/SweetSansProMedium.otf');
 }
 
-body {
+html, body {
+  height: 100%;
+  overflow: hidden;
   margin: 0;
   padding: 0;
   font-family: 'Sweet Sans Pro';

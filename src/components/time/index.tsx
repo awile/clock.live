@@ -28,8 +28,8 @@ const Time: FunctionComponent<TimeProps> = ({ className, date, highlightDayOfWee
           weekdays.map((day, i) => (
           <div key={day + i} 
             className={`Time-day-week 
-                        ${i === date.isoWeekday()  ? 'Time--current-day' : ''}
-                        ${i === highlightDayOfWeek ? 'Time--highlight-day' : ''}`}
+                        ${i+1 === date.isoWeekday()  ? 'Time--current-day' : ''}
+                        ${i+1 === highlightDayOfWeek ? 'Time--highlight-day' : ''}`}
           >
               {day}
             </div>
