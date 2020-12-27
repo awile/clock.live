@@ -1,7 +1,7 @@
 
 import React, { FC, Suspense, useState } from 'react'
 
-import { HighlightTimeProvider, TimezonesProvider } from './providers/';
+import { HighlightTimeProvider, MobileProvider, TimezonesProvider } from './providers/';
 import { upgradeLocalStorageSchema } from './utils/';
 import Page from './Page';
 import './app.scss'
@@ -34,13 +34,13 @@ const AppContainer: FC = () => {
     }
   }
   return (
-      <div className="App">
-        <TimezonesProvider>
-          <HighlightTimeProvider>
-            { isDOMLoaded ? <Page /> : <Loader /> }
-          </HighlightTimeProvider>
-        </TimezonesProvider>
-      </div>
+    <TimezonesProvider>
+      <HighlightTimeProvider>
+        <MobileProvider>
+          { isDOMLoaded ? <Page /> : <Loader /> }
+        </MobileProvider>
+      </HighlightTimeProvider>
+    </TimezonesProvider>
   );
 }
 

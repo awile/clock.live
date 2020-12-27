@@ -6,7 +6,30 @@
   text-align: left;
   background: white;
 
+  &--mobile {
+    width: 50vw;
+    position: relative;
+    margin: 0;
+
+    input {
+      width: 90%;
+    }
+
+    .Search-results {
+      width: 50vw;
+    }
+  }
+
+  &-results {
+    position: absolute;
+    background: #fff;
+    z-index: 100;
+    width: 150px;
+    box-shadow: 1px 6px 16px -9px #000000;
+  }
+
   &-item {
     cursor: pointer;
+    padding-left: 5px;
   }
 }

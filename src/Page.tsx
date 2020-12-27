@@ -1,5 +1,5 @@
 
-import React, { FC, MouseEvent, useContext, useState } from 'react'
+import React, { FC, MouseEvent, TouchEvent, useContext, useState } from 'react'
 
 import { TimezoneContainer, Search } from './components/';
 import { Timezone } from './types/';
@@ -10,11 +10,11 @@ import {
   newUTCDate,
   removeSelectedTimezone
 } from './utils/';
-import { HighlightTimeContext, TimezonesContext } from './providers/';
+import { HighlightTimeContext, MobileContext, TimezonesContext } from './providers/';
 import { Moment } from 'moment-timezone';
 
 const Page: FC = () => {
-  const { 
+  const {
     getTimezoneByName,
     selectedTimezones,
     searchNames,
@@ -28,6 +28,8 @@ const Page: FC = () => {
     isFixedTime,
     updateIsFixedTime
   } = useContext(HighlightTimeContext);
+
+  const { isMobile } = useContext(MobileContext);
 
   const [globalTime, setGlobalTime] = useState<Moment>(newUTCDate());
   tick(setGlobalTime, newUTCDate);
@@ -57,7 +59,7 @@ const Page: FC = () => {
     localStorage.setItem('timezones', JSON.stringify(newOrderSelectedTimezones));
   }
 
-  const handleClickOffTimezone = (e: MouseEvent): void => {
+  const handleClickOffTimezone = (e: MouseEvent | TouchEvent): void => {
     e.preventDefault();
     e.stopPropagation();
     updateIsFixedTime(false);
@@ -78,11 +80,20 @@ const Page: FC = () => {
   };
 
   return (
-    <React.Fragment>
+    <div className={`App ${isMobile ? 'App--mobile' : ''}`}>
       <div className="app-Header">
-        {/* <div className='app-Header-circle'></div> */}
         <span className='app-Header-title'>clocks.live</span>
       </div>
+      { isMobile &&
+        <div className='app-Search app-Search--mobile'>
+          <Search 
+            searchNames={Object.keys(searchNames)} 
+            onChange={handleAddTimezone} 
+            isMobile={isMobile} />
+          <div
+            className='app-Search-deselect app-Search-deselect--mobile'
+            onTouchStart={handleClickOffTimezone}>Deselect Time</div>
+        </div>}
       <div className='App-tz'>
         <div className='App-tz-containers'>
           {
@@ -102,13 +113,14 @@ const Page: FC = () => {
                 setIsFixedTime={handleSetIsFixedTime}
                 timezone={tz} />
           )}
-          <div className=''>
-            <Search searchNames={Object.keys(searchNames)} onChange={handleAddTimezone} />
-            <div className='Deselect-container' onClick={handleClickOffTimezone}>Deselect Time</div>
-          </div>
+          { !isMobile &&
+            <div>
+              <Search searchNames={Object.keys(searchNames)} onChange={handleAddTimezone} />
+              <div className='Deselect-container' onClick={handleClickOffTimezone}>Deselect Time</div>
+            </div>}
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

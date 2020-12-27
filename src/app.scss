@@ -20,6 +20,10 @@ body {
 .App {
   text-align: center;
 
+  &--mobile {
+    overflow: hidden;
+  }
+
 
   &-tz {
     margin-top: 20px;
@@ -38,10 +42,32 @@ body {
   }
 }
 
+.app-Search {
+  display: flex;
+  flex-direction: row;
+  width: calc(100vw - 10px);
+
+  &--mobile {
+    margin: 10px 5px;
+  }
+
+  &-deselect {
+    background: $Deselect;
+    width: 25%;
+    font-size: 12px;
+    text-transform: uppercase;
+
+    &--mobile {
+      width: 50%;
+      line-height: 20px;
+    }
+  }
+}
+
 .Deselect-container {
   height: 85%;
   width: 150px;
-  background: #f3f3f3;
+  background: $Deselect;
   margin-top: 60px;
   margin-left: 15px;
   padding: 10px;
@@ -53,7 +79,7 @@ body {
   }
   &:active {
     cursor: pointer;
-    background: #e3e3e3;
+    background: $DeselectActive;
   }
 }
 

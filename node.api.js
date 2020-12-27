@@ -8,7 +8,6 @@ export default () => ({
   webpack: (config) => {
     const customPlugins = [
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.IgnorePlugin(/^(axios)$/),
       new MomentTimezoneDataPlugin({
         startYear: currentYear,
         endYear: currentYear,
