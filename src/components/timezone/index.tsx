@@ -104,7 +104,21 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
   const timeDiffInMinutes: number | null = (highlightTime && localTime) ?
     Math.round(Math.abs(localTime.diff(highlightTime)) / (60 * 1000)) :
     null;
-  const handleSetDragging = (value: boolean) => () => setIsDragging(value);
+  const handleSetDragging = (value: boolean) => () => {
+    const containerClass = 'App-tz-containers';
+    if (value && !isDragging) {
+      setIsDragging(value)
+      const elements = document.getElementsByClassName(containerClass);
+      const timezoneContainer = elements[0];
+      const classList = timezoneContainer.getAttribute('class');
+      timezoneContainer.setAttribute('class', `${containerClass} ${containerClass}--fixed`);
+    } else if (!value && isDragging) {
+      setIsDragging(value)
+      const elements = document.getElementsByClassName('App-tz-containers');
+      const timezoneContainer = elements[0];
+      timezoneContainer.setAttribute('class', containerClass);
+    }
+  };
   const handleMouseMove = (e: MouseEvent | React.TouchEvent<HTMLDivElement>) => (!isFixedTime || isDragging) && handlePointerMove(e);
   const handleRemoveTimezone = () => onRemoveTimezone(timezone.timezone);
 
