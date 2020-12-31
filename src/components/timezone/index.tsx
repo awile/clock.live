@@ -110,7 +110,6 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
       setIsDragging(value)
       const elements = document.getElementsByClassName(containerClass);
       const timezoneContainer = elements[0];
-      const classList = timezoneContainer.getAttribute('class');
       timezoneContainer.setAttribute('class', `${containerClass} ${containerClass}--fixed`);
     } else if (!value && isDragging) {
       setIsDragging(value)
