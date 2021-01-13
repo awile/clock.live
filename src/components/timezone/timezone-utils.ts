@@ -12,7 +12,7 @@ export function offsetToUTCTime(highlightTimezone: Moment, offset: number, heigh
   return highlightMoment.utc().format();
 }
 
-export function timeToOffset(time: Moment, containerHeight: number): number {
+export function timeToOffset(time: Moment, containerHeight: number, isMobile: boolean): number {
   const startOfDay: Moment = time.clone().startOf('day');
   const duration = moment.duration(time.diff(startOfDay));
   let minutes = Math.floor(duration.asMinutes());
@@ -20,6 +20,7 @@ export function timeToOffset(time: Moment, containerHeight: number): number {
   if (minutes < 0) {
     minutes = minutesInADay + minutes;
   }
+  minutes = minutes + (isMobile ? 0 : 1);
   return Math.floor(((minutes % minutesInADay) / minutesInADay) * containerHeight) - 1;
 }
 

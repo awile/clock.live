@@ -34,7 +34,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
   const [containerHeight, setContainerHeight] = useState<number>(0);
   const [hasResizeListener, setHasResizeListener] = useState<boolean>(false);
   const localTime: Moment = globalTime.tz(timezone.timezone)
-  const currentOffset: number = timeToOffset(localTime, containerHeight);
+  const currentOffset: number = timeToOffset(localTime, containerHeight, isMobile);
   const startOfDay: Moment = newDate(timezone.timezone).startOf('day');
 
 
@@ -58,7 +58,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
   let highlightOffset: number | undefined;
   if (highlightTime) {
     highlightMoment = utcToLocalTimezone(timezone, highlightTime);
-    highlightOffset = timeToOffset(highlightMoment, containerHeight);
+    highlightOffset = timeToOffset(highlightMoment, containerHeight, isMobile);
   }
 
   const handlePointerMove = (e: MouseEvent | React.TouchEvent<HTMLDivElement>): void => {
