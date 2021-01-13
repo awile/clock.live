@@ -21,7 +21,7 @@ type TimezoneProps = {
   isLast: boolean
   isFixedTime: boolean
   onHighlightTimeChange: (time: string) => void
-  onRemoveTimezone: (timezone: string) => void
+  onRemoveTimezone: (timezone: Timezone) => void
   setIsFixedTime: (isFixedTime: boolean) => void
   isUserTimezone: boolean
 }
@@ -119,7 +119,7 @@ const TimezoneContainer: FunctionComponent<TimezoneProps> = ({ globalTime, timez
     }
   };
   const handleMouseMove = (e: MouseEvent | React.TouchEvent<HTMLDivElement>) => (!isFixedTime || isDragging) && handlePointerMove(e);
-  const handleRemoveTimezone = () => onRemoveTimezone(timezone.timezone);
+  const handleRemoveTimezone = () => onRemoveTimezone(timezone);
 
   return (
     <div className={'Timezone ' + (isMobile ? 'Timezone--mobile' : '')}>

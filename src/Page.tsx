@@ -13,6 +13,7 @@ import {
 import { HighlightTimeContext, MobileContext, TimezonesContext } from './providers/';
 import { Moment } from 'moment-timezone';
 const deselectIcon = require('./images/deselect.svg'); // eslint-disable-line 
+const logo = require('./images/logo.jpg'); // eslint-disable-line 
 
 const Page: FC = () => {
   const {
@@ -44,8 +45,8 @@ const Page: FC = () => {
     const newSelectedTimezones: Timezone[] = addSelectedTimezone(selectedTimezone, selectedTimezones);
     updateSelectedTimezones(newSelectedTimezones);
   };
-  const handleRemoveTimezone = (tz: string): void => {
-    const newSelectedTimezones: Timezone[] = removeSelectedTimezone(getTimezoneByName(tz), selectedTimezones);
+  const handleRemoveTimezone = (tz: Timezone): void => {
+    const newSelectedTimezones: Timezone[] = removeSelectedTimezone(tz, selectedTimezones);
     updateSelectedTimezones(newSelectedTimezones);
     localStorage.setItem('timezones', JSON.stringify(newSelectedTimezones));
   };
@@ -85,7 +86,9 @@ const Page: FC = () => {
   return (
     <div className={`App ${isMobile ? 'App--mobile' : ''}`}>
       <div className="app-Header">
-        <span className='app-Header-title'>{!isMobile ? 'clocks.live' : 'c.l'}</span>
+        { !isMobile ?
+            <span className='app-Header-title'>clocks.live</span> :
+            <img className='app-Header-logo' src={logo} alt='c.l'/> }
         { isMobile &&
           <Search 
             searchNames={Object.keys(searchNames)} 
@@ -114,7 +117,7 @@ const Page: FC = () => {
                 handleMoveRight={() => handleMoveRight(i)}
                 highlightTime={highlightTime}
                 isFixedTime={isFixedTime}
-                isUserTimezone={tz.timezone === userTimezone.timezone}
+                isUserTimezone={tz.label === userTimezone.label}
                 onHighlightTimeChange={handleSetHighlightTime}
                 onRemoveTimezone={handleRemoveTimezone}
                 setIsFixedTime={handleSetIsFixedTime}

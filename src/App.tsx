@@ -6,7 +6,7 @@ import { HighlightTimeProvider, MobileProvider, TimezonesProvider } from './prov
 import { upgradeLocalStorageSchema } from './utils/';
 import Page from './Page';
 import './app.scss'
-const favicon = require('./images/favicon.ico');
+const favicon = require('./images/favicon.ico'); // eslint-disable-line
 
 type AppProps = {
 }

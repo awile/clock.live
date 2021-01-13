@@ -81,6 +81,7 @@
       margin: 0;
       padding: 10px 15px;
       border-bottom: 1px solid $LightGray;
+      border: none;
     }
     .Search-item:last-child {
       border-bottom: none;
@@ -122,6 +123,7 @@
     padding-left: 5px;
     font-size: 14px;
     margin: 0;
+    border: none;
 
     &--selected {
       width: 16px;

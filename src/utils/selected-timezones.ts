@@ -3,7 +3,7 @@ import { Timezone } from '../types/';
 
 export function addSelectedTimezone(addTz: Timezone, timezones: Timezone[] = []): Timezone[] {
   const newTimezones: Timezone[] = timezones.slice();
-  if (!timezones.find(tz => tz.timezone === addTz.timezone)) {
+  if (!timezones.find(tz => tz.label === addTz.label)) {
     newTimezones.push(addTz);
   }
   return newTimezones;
@@ -12,7 +12,7 @@ export function addSelectedTimezone(addTz: Timezone, timezones: Timezone[] = [])
 export function removeSelectedTimezone(removeTz: Timezone, timezones: Timezone[]): Timezone[] {
   const newTimezones: Timezone[] = [];
   timezones.forEach(tz => {
-    if (tz.timezone !== removeTz.timezone) {
+    if (tz.label !== removeTz.label) {
       newTimezones.push(tz);
     }
   });

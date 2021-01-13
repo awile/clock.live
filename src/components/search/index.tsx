@@ -44,7 +44,6 @@ const Search: FunctionComponent<SearchProps> = ({ searchNames, selectedTimezones
     }
   };
   const setOnClick = (value: string) => (event: MouseEvent | TouchEvent) => {
-    console.log(event)
     event.preventDefault();
     event.stopPropagation();
     onChange(value);

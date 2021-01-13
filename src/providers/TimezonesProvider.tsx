@@ -56,7 +56,7 @@ const TimezonesProvider: FC = ({ children }) => {
 
 const getInitialSelectedTimezones = (selectedTimezonesString: string, userTimezone: Timezone): Timezone[] => {
   let timezones: Timezone[] = JSON.parse(selectedTimezonesString);
-  if (userTimezone && timezones.every(tz => tz.timezone !== userTimezone.timezone)) {
+  if (userTimezone && timezones.every(tz => tz.label !== userTimezone.label)) {
     timezones = [userTimezone].concat(timezones);
   }
   return timezones;
