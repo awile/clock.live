@@ -89,6 +89,7 @@ const Page: FC = () => {
         { isMobile &&
           <Search 
             searchNames={Object.keys(searchNames)} 
+            selectedTimezones={selectedTimezones}
             onChange={handleAddTimezone} 
             isMobile={isMobile} /> }
         { isMobile &&
@@ -121,7 +122,10 @@ const Page: FC = () => {
           )}
           { !isMobile &&
             <div>
-              <Search searchNames={Object.keys(searchNames)} onChange={handleAddTimezone} />
+              <Search 
+                searchNames={Object.keys(searchNames)} 
+                selectedTimezones={selectedTimezones}
+                onChange={handleAddTimezone} />
               <div className='Deselect-container' onClick={handleClickOffTimezone}>Deselect Time</div>
             </div>}
         </div>

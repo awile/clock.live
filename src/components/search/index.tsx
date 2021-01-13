@@ -2,17 +2,21 @@
 import React, { ChangeEvent, MouseEvent, TouchEvent, FunctionComponent, KeyboardEvent, useState } from 'react'
 
 import './_search.scss';
+import { Timezone } from '../../types/'
 const searchAddIcon = require('../../images/search-add.svg'); // eslint-disable-line
 const searchAddIconActive = require('../../images/search-add-active.svg'); // eslint-disable-line
 const clearIcon = require('../../images/clear.svg'); // eslint-disable-line
+const checkIcon = require('../../images/check.svg'); // eslint-disable-line
 
 type SearchProps = {
   searchNames: string[]
+  selectedTimezones: Timezone[]
   onChange: (timezone: string) => void
   isMobile?: boolean
 }
 
-const Search: FunctionComponent<SearchProps> = ({ searchNames, onChange, isMobile }: SearchProps) => {
+const Search: FunctionComponent<SearchProps> = ({ searchNames, selectedTimezones, onChange, isMobile }: SearchProps) => {
+  const selectedTimezoneLabels = selectedTimezones.map(tz => tz.label);
   const [term, setTerm] = useState<string>('');
   const [matches, setMatches] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -71,11 +75,14 @@ const Search: FunctionComponent<SearchProps> = ({ searchNames, onChange, isMobil
         <div className='Search-results'>
           { matches.length === 0 ?
               <div className="Search-results--none">No cities found for <span>{`"${term}"`}</span>.</div> :
-              matches.slice(0, 5).map(m => (
-              <p key={m} className='Search-item' 
-                onTouchStart={setOnClick(m)} 
-                onClick={setOnClick(m)}>{m}</p>
-              ))
+                matches.slice(0, 5).map(m => (
+                <div className='Search-item-container'>
+                  <p key={m} className='Search-item' 
+                    onTouchStart={setOnClick(m)} 
+                    onClick={setOnClick(m)}>{m}</p>
+                  { selectedTimezoneLabels.includes(m) && 
+                    <img className='Search-item--selected' src={checkIcon} alt='✔️'/>}
+                </div>))
           }
         </div>}
     </div>
