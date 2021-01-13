@@ -6,6 +6,7 @@ import { HighlightTimeProvider, MobileProvider, TimezonesProvider } from './prov
 import { upgradeLocalStorageSchema } from './utils/';
 import Page from './Page';
 import './app.scss'
+const favicon = require('./images/favicon.ico');
 
 type AppProps = {
 }
@@ -38,6 +39,7 @@ const AppContainer: FC = () => {
     <React.Fragment>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
+        <link rel="icon" href={favicon} />
       </Head>
       <TimezonesProvider>
         <HighlightTimeProvider>
